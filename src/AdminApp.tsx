@@ -325,7 +325,7 @@ function MentoringSettingsPage({ onBack }: { onBack: () => void }) {
             </div>
           </header>
           <div className="admin-form-grid">
-            <div className="wide"><span style={{ display: "block", marginBottom: 8 }}>Ảnh card miễn phí</span><CoverUploadBox variant="landscape" title="Tải ảnh lên" hint="Ảnh nằm phía trên card" size="Khuyến nghị 1200 × 800px · 3:2" value={data.cardFree.imageUrl} onChange={(url) => set("cardFree.imageUrl", url)} /></div>
+            <div className="wide"><span style={{ display: "block", marginBottom: 8 }}>Ảnh card miễn phí</span><CoverUploadBox variant="landscape" title="Tải ảnh lên" hint="Ảnh nằm phía trên card" size="Khuyến nghị 1600 × 900px · 16:9" value={data.cardFree.imageUrl} onChange={(url) => set("cardFree.imageUrl", url)} /></div>
             <label><span>Alt text ảnh</span><input value={data.cardFree.imageAlt} onChange={(e) => set("cardFree.imageAlt", e.target.value)} placeholder="Mô tả ảnh cho screen reader" /></label>
             <label><span>Badge (ví dụ: MIỄN PHÍ)</span><input value={data.cardFree.badge} onChange={(e) => set("cardFree.badge", e.target.value)} placeholder="MIỄN PHÍ" /></label>
             <label><span>Eyebrow nhỏ</span><input value={data.cardFree.eyebrow} onChange={(e) => set("cardFree.eyebrow", e.target.value)} placeholder="ĐỒNG HÀNH 1:1 · 30 PHÚT" /></label>
@@ -349,7 +349,7 @@ function MentoringSettingsPage({ onBack }: { onBack: () => void }) {
             </div>
           </header>
           <div className="admin-form-grid">
-            <div className="wide"><span style={{ display: "block", marginBottom: 8 }}>Ảnh card trả phí</span><CoverUploadBox variant="landscape" title="Tải ảnh lên" hint="Ảnh nằm phía trên card" size="Khuyến nghị 1200 × 800px · 3:2" value={data.cardPaid.imageUrl} onChange={(url) => set("cardPaid.imageUrl", url)} /></div>
+            <div className="wide"><span style={{ display: "block", marginBottom: 8 }}>Ảnh card trả phí</span><CoverUploadBox variant="landscape" title="Tải ảnh lên" hint="Ảnh nằm phía trên card" size="Khuyến nghị 1600 × 900px · 16:9" value={data.cardPaid.imageUrl} onChange={(url) => set("cardPaid.imageUrl", url)} /></div>
             <label><span>Alt text ảnh</span><input value={data.cardPaid.imageAlt} onChange={(e) => set("cardPaid.imageAlt", e.target.value)} placeholder="Mô tả ảnh cho screen reader" /></label>
             <label><span>Badge (ví dụ: THEO GÓI)</span><input value={data.cardPaid.badge} onChange={(e) => set("cardPaid.badge", e.target.value)} placeholder="THEO GÓI" /></label>
             <label><span>Eyebrow nhỏ</span><input value={data.cardPaid.eyebrow} onChange={(e) => set("cardPaid.eyebrow", e.target.value)} placeholder="ĐỒNG HÀNH 1:1 · CHUYÊN SÂU" /></label>
