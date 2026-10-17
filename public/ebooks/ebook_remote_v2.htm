@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Báo cáo thị trường Job Online - Remote 2026 & Dự báo 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5ede2;
+  --peach: #c9a87c;
+  --blush: #a0845c;
+  --taupe: #8a6d4e;
+  --umber: #3a2e24;
+  --white: #fdf8f3;
+  --text: #2c1f1a;
+  --text-light: #5c4a35;
+  --sidebar-w: 260px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--umber);
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-logo-name {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.sidebar-logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.sidebar-book-title {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-book-title p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.toc { padding: 12px 0 24px; flex: 1; }
+.toc-section { margin-bottom: 4px; }
+.toc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--peach);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.toc-link {
+  display: block;
+  padding: 5px 20px 5px 28px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1.4;
+}
+.toc-link:hover, .toc-link.active {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.toc-link.active {
+  border-left: 2px solid var(--blush);
+  padding-left: 26px;
+}
+
+/* MAIN */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+/* COVER */
+.cover {
+  background: linear-gradient(135deg, var(--umber) 0%, #7a4a3a 100%);
+  padding: 80px 64px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cover-tag {
+  font-size: 12px;
+  color: var(--peach);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cover-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  max-width: 600px;
+}
+.cover-title span {
+  color: var(--blush);
+}
+.cover-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+.cover-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cover-tag-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+.cover-stats {
+  margin-top: 48px;
+  display: flex;
+  gap: 40px;
+}
+.cover-stat-val {
+  font-family: 'Lora', serif;
+  font-size: 32px;
+  color: var(--blush);
+  font-weight: 500;
+}
+.cover-stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+
+/* CONTENT */
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 48px;
+}
+
+/* PART HEADER */
+.part-header {
+  background: var(--cream);
+  padding: 64px 48px;
+  margin-bottom: 0;
+  border-bottom: 3px solid var(--blush);
+}
+.part-number {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blush);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.part-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--umber);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* TYPOGRAPHY */
+h2 {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  color: var(--umber);
+  font-weight: 600;
+  margin: 48px 0 16px;
+  line-height: 1.3;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--umber);
+  margin: 32px 0 12px;
+}
+h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--taupe);
+  margin: 24px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+p {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  line-height: 1.8;
+  max-width: 65ch;
+}
+ul, ol {
+  margin: 8px 0 16px 20px;
+}
+li {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+/* CALLOUT */
+.callout {
+  background: var(--cream);
+  border-left: 3px solid var(--blush);
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 0 8px 8px 0;
+}
+.callout p {
+  font-size: 14px;
+  color: var(--umber);
+  font-style: italic;
+  margin: 0;
+}
+.callout.dark {
+  background: var(--umber);
+  border-color: var(--peach);
+}
+.callout.dark p {
+  color: rgba(255,255,255,0.85);
+}
+
+/* TABLE */
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  background: var(--umber);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 500;
+}
+tbody tr:nth-child(even) {
+  background: var(--cream);
+}
+tbody td {
+  padding: 10px 14px;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  vertical-align: top;
+}
+
+/* COMPARISON TABLE */
+.compare-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 20px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--peach);
+}
+.compare-col-header {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.compare-col-header.bad { background: #f7eaea; color: #a05050; }
+.compare-col-header.good { background: #edf5ed; color: #3a7a3a; }
+.compare-item {
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--text-light);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.5;
+}
+.compare-item.bad { background: #fdf8f8; }
+.compare-item.good { background: #f8fdf8; }
+
+/* STAT HIGHLIGHT */
+.stat-row {
+  display: flex;
+  gap: 24px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+.stat-box {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 16px 20px;
+  flex: 1;
+  min-width: 140px;
+}
+.stat-box-val {
+  font-family: 'Lora', serif;
+  font-size: 28px;
+  color: var(--blush);
+  font-weight: 500;
+}
+.stat-box-label {
+  font-size: 12px;
+  color: var(--taupe);
+  margin-top: 2px;
+}
+
+/* DIVIDER */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, var(--blush), transparent);
+  margin: 48px 0;
+}
+
+/* CHECKLIST */
+.checklist {
+  margin: 20px 0;
+}
+.checklist-group-title {
+  background: var(--umber);
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px 8px 0 0;
+}
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--peach);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+.checklist-col-header {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--taupe);
+  background: var(--cream);
+  border-bottom: 1px solid var(--peach);
+  text-align: center;
+}
+.checklist-item {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  line-height: 1.5;
+}
+.checklist-item:nth-child(3n+1) { background: var(--white); }
+.checklist-item:nth-child(3n+2), .checklist-item:nth-child(3n+3) {
+  background: #fdf8f5;
+  text-align: center;
+}
+
+/* NICHE CARD */
+.niche-card {
+  border: 1px solid var(--peach);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+.niche-card-header {
+  background: var(--cream);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--peach);
+}
+.niche-card-title {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  color: var(--umber);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.niche-card-body { padding: 20px; }
+.niche-section { margin-bottom: 16px; }
+.niche-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blush);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.niche-quote {
+  background: var(--umber);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+}
+
+/* ROADMAP */
+.roadmap-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+.roadmap-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.roadmap-content {}
+.roadmap-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--umber);
+  margin-bottom: 4px;
+}
+.roadmap-time {
+  font-size: 11px;
+  color: var(--blush);
+  margin-bottom: 6px;
+}
+.roadmap-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* CONCLUSION */
+.conclusion {
+  background: var(--umber);
+  padding: 64px 48px;
+  text-align: center;
+}
+.conclusion h2 {
+  color: #fff;
+  font-size: 28px;
+  margin: 0 0 16px;
+}
+.conclusion p {
+  color: rgba(255,255,255,0.7);
+  max-width: 540px;
+  margin: 0 auto 12px;
+  font-size: 15px;
+}
+.conclusion-final {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  color: var(--peach);
+  font-style: italic;
+  margin-top: 32px;
+}
+
+/* WATERMARK CANVAS */
+#watermark-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  position: fixed;
+  top: 0; left: var(--sidebar-w);
+  right: 0;
+  height: 3px;
+  background: rgba(0,0,0,0.1);
+  z-index: 200;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--blush);
+  width: 0%;
+  transition: width 0.1s;
+}
+
+/* MOBILE */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 300;
+  background: var(--umber);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .sidebar.open { transform: translateX(0); --sidebar-w: 280px; }
+  .main { margin-left: 0; }
+  .menu-toggle { display: block; }
+  .content { padding: 48px 24px; }
+  .part-header { padding: 48px 24px; }
+  .cover { padding: 60px 24px; }
+  .cover-stats { gap: 24px; }
+  .checklist-grid { grid-template-columns: 2fr 1fr 1fr; }
+  .progress-bar { left: 0; }
+}
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<canvas id="watermark-canvas"></canvas>
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-name">✦ Tia Nguyên</div>
+    <div class="sidebar-logo-sub">Tài liệu</div>
+  </div>
+  <div class="sidebar-book-title">
+    <p>Báo cáo thị trường Job Online - Remote 2026 & Dự báo 2027</p>
+  </div>
+  <nav class="toc">
+    <div class="toc-section">
+      <div class="toc-header">Lời mở đầu</div>
+      <a href="#intro" class="toc-link">Tại sao mình viết báo cáo này</a>
+      <a href="#method" class="toc-link">Phương pháp thu thập dữ liệu</a>
+      <a href="#who" class="toc-link">Ai nên đọc báo cáo này</a>
+      <a href="#author" class="toc-link">Về tác giả</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-header">Phần 1 · Tổng quan 2026</div>
+      <a href="#p1-1" class="toc-link">1.1 Thị trường quốc tế</a>
+      <a href="#p1-2" class="toc-link">1.2 Thị trường Việt Nam</a>
+      <a href="#p1-3" class="toc-link">1.3 Tại sao 2026 khó hơn</a>
+      <a href="#p1-4" class="toc-link">1.4 AI đang thay đổi gì</a>
+      <a href="#p1-5" class="toc-link">1.5 Chân dung người làm remote</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-header">Phần 2 · Dự báo 2027</div>
+      <a href="#p2-trends" class="toc-link">3 xu hướng thị trường</a>
+      <a href="#p2-niches" class="toc-link">9 ngách cơ hội</a>
+      <a href="#p2-roadmap" class="toc-link">Lộ trình đầu tư bản thân</a>
+      <a href="#p2-traps" class="toc-link">2027 và những chiếc bẫy</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-header">Phần 3 · Chiến thuật</div>
+      <a href="#p3-mistakes" class="toc-link">6 sai lầm phổ biến</a>
+      <a href="#p3-right" class="toc-link">3 điều đúng cần làm</a>
+      <a href="#p3-cv" class="toc-link">Nghiêm khắc như nhà tuyển dụng</a>
+    </div>
+    <div class="toc-section">
+      <div class="toc-header">Phần 4 · Checklist</div>
+      <a href="#p4-self" class="toc-link">Tự đánh giá vị trí của mình</a>
+      <a href="#p4-niche" class="toc-link">Ngách phù hợp với bạn</a>
+      <a href="#p4-action" class="toc-link">3 việc trong 30 ngày tới</a>
+      <a href="#p4-resources" class="toc-link">Tài nguyên tham khảo</a>
+    </div>
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- COVER -->
+<section class="cover" id="cover">
+  <div class="cover-tag">Tia Nguyên · Báo cáo thị trường</div>
+  <h1 class="cover-title">Báo cáo thị trường<br>Job Online - Remote <span>2026</span><br>& Dự báo 2027</h1>
+  <p class="cover-sub">Xu hướng · Cơ hội · Thách thức — Dành cho người tìm việc và freelancer</p>
+  <div class="cover-tags">
+    <span class="cover-tag-pill">Dữ liệu thực tế</span>
+    <span class="cover-tag-pill">Phân tích chuyên sâu</span>
+    <span class="cover-tag-pill">Gợi ý thực tiễn</span>
+  </div>
+  <div class="cover-stats">
+    <div>
+      <div class="cover-stat-val">+35%</div>
+      <div class="cover-stat-label">Tăng trưởng thị trường<br>remote (2024–2026)</div>
+    </div>
+    <div>
+      <div class="cover-stat-val">9</div>
+      <div class="cover-stat-label">Ngách cơ hội<br>được phân tích</div>
+    </div>
+    <div>
+      <div class="cover-stat-val">39tr.</div>
+      <div class="cover-stat-label">Nội dung<br>thực chiến</div>
+    </div>
+  </div>
+</section>
+
+<!-- LỜI MỞ ĐẦU -->
+<div class="part-header" id="intro">
+  <div class="part-number">Lời mở đầu</div>
+  <div class="part-title">Tại sao mình viết báo cáo này và nó khác gì với những bản báo cáo khác</div>
+</div>
+
+<div class="content">
+  <p>Mỗi năm, có hàng chục báo cáo thị trường lao động được công bố. Nhưng nếu bạn tìm một báo cáo viết riêng cho người đang tìm job online và remote tại Việt Nam - bạn sẽ thấy gần như không gì.</p>
+  <p>Các báo cáo lớn như Anphabe hay TopCV nhìn vào thị trường lao động tổng thể. Các nền tảng freelance quốc tế như Upwork hay Fiverr nhìn vào thị trường job online và remote toàn cầu. Không ai nhìn vào những người Việt Nam đang tìm job online và remote - trong nước lẫn quốc tế để xem điều gì đang thực sự chờ họ.</p>
+  <p>Vậy thì báo cáo này sẽ làm việc đó.</p>
+  <p>Ban đầu, mình làm báo cáo này để xây chiến lược và kế hoạch cho một dự án của công ty HR technology mà mình đã đầu tư từ năm 2024. Nhưng khi làm xong, mình nhìn lại và thấy "Các bạn cũng nên có một bản như thế này, để chuẩn bị cho năm 2027." Và đó là lý do mình quyết định chia sẻ nó rộng rãi thay vì giữ cho riêng mình.</p>
+
+  <h3>Điểm khác biệt 01: Góc nhìn của người làm báo cáo</h3>
+  <p>Khi một tổ chức công bố báo cáo thị trường, họ nói về xu hướng, về con số, về tỷ lệ phần trăm. Những thứ đó, đúng là rất cần thiết - nhưng không ai kể cho bạn nghe điều nhà tuyển dụng thật sự nghĩ khi đọc CV của bạn trong 30 giây đầu. Không ai nói thẳng rằng đa số người tìm job online đang mắc kẹt ở cùng một chỗ - và thiếu kỹ năng, chỉ là một phần trong đó.</p>
+  <p>Những gì được viết trong báo cáo này không chỉ là các số liệu mình tìm được trong quá trình nghiên cứu, mà còn đến từ một người đứng ở giao điểm của cả 3 phía: hệ thống tuyển dụng, nhà tuyển dụng, và người tìm việc.</p>
+
+  <h3>Điểm khác biệt 02: Viết cho người đang tìm job, không phải doanh nghiệp</h3>
+  <p>Hầu hết báo cáo thị trường kết thúc bằng những gợi ý cho HR và lãnh đạo doanh nghiệp. Báo cáo này kết thúc bằng checklist để bạn tự đánh giá mình đang ở đâu và cần làm gì tiếp theo.</p>
+  <p>Mỗi số liệu trong báo cáo này đều được đặt câu hỏi: "Điều này có nghĩa gì với người đang tìm job?" Mỗi xu hướng đều được dịch sang ngôn ngữ thực tế: ngách này đang mở hay đang đóng, kỹ năng này cần học ngay hay có thể chờ, timeline này thực tế hay đang được vẽ quá tay.</p>
+
+  <h3>Điểm khác biệt 03: Kết hợp data và trải nghiệm cá nhân</h3>
+  <p>Mình không muốn viết một báo cáo chỉ có số liệu, vì số liệu không trả lời được câu hỏi "Vậy thì mình phải làm gì?" Nhưng mình cũng không muốn viết thuần quan điểm cá nhân, vì quan điểm không có nền tảng dữ liệu thì rất dễ sinh ra các góc nhìn sai lệch.</p>
+  <p>Do đó, báo cáo này cố gắng làm hai việc cùng một lúc: cung cấp cho bạn dữ liệu từ các nguồn uy tín để bạn biết điều gì đang diễn ra ngoài kia, quan điểm thực tế từ góc nhìn headhunting để bạn biết bạn nên làm gì bây giờ.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 id="method">Phương pháp thu thập dữ liệu</h2>
+  <p>Báo cáo này được xây dựng từ 3 nguồn kết hợp:</p>
+  <p><strong>Quan sát thực chiến từ headhunting và vận hành cộng đồng.</strong> Mình đã và đang làm việc trực tiếp với cả hai phía thị trường - nhà tuyển dụng lẫn người tìm việc - trong nhiều năm. Những hình mẫu mình mô tả trong báo cáo này đến từ việc quan sát lặp đi lặp lại đủ nhiều lần để nhận ra đó là quy luật không thể phớt lờ.</p>
+  <p><strong>Dữ liệu từ các tổ chức nghiên cứu uy tín.</strong> Các số liệu trong báo cáo được tổng hợp và kiểm chứng từ nhiều nguồn: ILO, Microsoft Work Trend Index, Robert Walters Salary Survey, Harvard Business School, Anphabe, TopCV, CareerLink, Decision Lab và một số tổ chức nghiên cứu thị trường lao động quốc tế khác.</p>
+  <p><strong>Quan sát từ cộng đồng Job Online - Remote.</strong> Hàng nghìn thành viên trong cộng đồng này đang ở nhiều giai đoạn khác nhau của hành trình job online - từ người mới bắt đầu đến người đã có thu nhập ổn định.</p>
+
+  <div class="callout">
+    <p>Ba nguồn này bổ trợ cho nhau: dữ liệu tổ chức cho bạn bức tranh vĩ mô, quan sát thực chiến cho bạn góc nhìn vi mô, cộng đồng cho bạn nhịp đập thật của thị trường ở thời điểm hiện tại.</p>
+  </div>
+
+  <h2 id="who">Ai nên đọc báo cáo này và ai nên bỏ qua</h2>
+  <p>Báo cáo này phù hợp với bạn nếu bạn đang ở một trong những vị trí sau:</p>
+  <ul>
+    <li>Đang cân nhắc chuyển sang làm job online hoặc remote và muốn hiểu thị trường thật sự đang ở đâu trước khi quyết định</li>
+    <li>Đang tìm job online nhưng chưa có kết quả và không chắc vấn đề nằm ở đâu: kỹ năng, hồ sơ, cách tiếp cận, hay chính thị trường đang thay đổi</li>
+    <li>Đang có job online rồi nhưng muốn vị trí, công việc có lương cao hơn</li>
+    <li>Đang làm HR hoặc quản lý tuyển dụng và muốn hiểu người tìm job online đang gặp khó khăn gì</li>
+  </ul>
+  <p>Báo cáo này có thể không phải thứ bạn cần nếu:</p>
+  <ul>
+    <li>Bạn đang tìm một danh sách job cụ thể để apply ngay - báo cáo này phân tích thị trường, không liệt kê tin tuyển dụng</li>
+    <li>Bạn đang tìm lộ trình học kỹ năng chi tiết theo từng bước - báo cáo này cho bạn định hướng ngách và kỹ năng, không phải giáo trình học cụ thể</li>
+    <li>Bạn đang cần tư vấn cá nhân cho trường hợp cụ thể - đó là thứ chỉ Career Planning mới làm được</li>
+  </ul>
+
+  <h2 id="author">Về tác giả</h2>
+  <p>Mình là Tia Nguyễn (Nguyen Thu Trang/Trang Chi) - người sáng lập Trang Chi Media, agency marketing đã hoạt động hơn 10 năm với khách hàng trải dài từ Hà Nội đến TP.HCM và cả thị trường quốc tế.</p>
+  <p>Cuối năm 2024, mình có tham gia đầu tư vào một công ty HR technology với tư cách cổ đông. Điều này giúp mình có thêm nhiều trải nghiệm về thị trường lao động nói chung, và thị trường job remote - online nói riêng. Đó là lý do mình nhìn được thị trường ở cả 2 phía: người đi tìm việc làm lẫn người tuyển dụng/headhunting.</p>
+  <p>Những gì mình chia sẻ trong ebook này là những gì mình quan sát, trải nghiệm và tổng hợp lại từ hàng nghìn tin tuyển dụng - thật và giả - trong hơn một thập kỷ.</p>
+</div>
+
+<!-- PHẦN 1 -->
+<div class="part-header" id="p1">
+  <div class="part-number">Phần 1</div>
+  <div class="part-title">Bức tranh tổng quan thị trường 2026</div>
+</div>
+
+<div class="content">
+  <h2 id="p1-1">1.1 Thị trường job online quốc tế: Cơ hội dành cho ai?</h2>
+  <p>Nếu bạn đang tìm job online và không chắc thị trường có chỗ cho mình không - câu trả lời ngắn là: có, nhưng tùy vào nơi bạn đang đứng.</p>
+
+  <h3>Cơ hội thực sự lớn đến đâu?</h3>
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-box-val">455 tỷ USD</div>
+      <div class="stat-box-label">Quy mô thị trường freelance toàn cầu 2026</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-box-val">Top 3</div>
+      <div class="stat-box-label">Việt Nam trong điểm đến thuê remote Đông Nam Á</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-box-val">50-70%</div>
+      <div class="stat-box-label">Chi phí thấp hơn Mỹ/Tây Âu với chất lượng tương đương</div>
+    </div>
+  </div>
+
+  <p>Thị trường freelance toàn cầu dự kiến chạm mốc 455 tỷ USD năm 2026. Đây là con số để hình dung quy mô - không phải để ăn mừng. Bởi thực tế, miếng bánh lớn không có nghĩa là ai cũng được chia phần.</p>
+  <p>Việt Nam đang là một trong 3 điểm đến thuê nhân sự remote lớn nhất Đông Nam Á, cùng Philippines và Indonesia. Nhà tuyển dụng quốc tế đang chủ động tìm người Việt - không phải vì họ thiếu lựa chọn, mà vì nhân sự Việt Nam mang lại chi phí thấp hơn 50-70% so với Mỹ hay Tây Âu với chất lượng tương đương.</p>
+
+  <h3>Tại sao công ty quốc tế đang nhìn vào Việt Nam nhiều hơn? Xu hướng China+1 là gì?</h3>
+  <p>Samsung, Intel, Nike - những tên tuổi lớn đều đã dịch chuyển nhà máy vào Việt Nam. Đó không phải ngẫu nhiên. Đó là kết quả của chiến lược China+1: các công ty đa quốc gia - chủ yếu Mỹ và châu Âu - không đặt toàn bộ chuỗi cung ứng vào Trung Quốc nữa, mà tìm thêm 1 quốc gia khác để phân tán rủi ro.</p>
+  <p>Điều ít người nhận ra là China+1 đang xảy ra tương tự với nhân sự online và remote. Trong 2-3 năm gần đây, các công ty Mỹ bắt đầu thuê nhân sự tech, marketing và ops từ Việt Nam - vì người Việt có tiếng Anh tốt hơn, chi phí tương đương Trung Quốc, và ít rủi ro địa chính trị hơn.</p>
+
+  <div class="callout">
+    <p>Lưu ý thực tế: cơ hội từ China+1 chủ yếu rơi vào nhóm có tiếng Anh tốt và kỹ năng tech hoặc digital marketing. Người làm content tiếng Việt thuần hoặc kỹ năng chỉ phục vụ thị trường nội địa thì xu hướng này gần như không ảnh hưởng.</p>
+  </div>
+
+  <h3>Nhưng "rộng" không có nghĩa là "dễ"</h3>
+  <p>Đây cũng là những số liệu mà bạn cần biết:</p>
+  <ul>
+    <li>Job postings fully remote hiện chỉ còn khoảng 12% - ít hơn nhiều so với thời COVID</li>
+    <li>Trung bình một job seeker phải nộp từ 32 đến hơn 200 đơn trước khi có offer</li>
+    <li>Gần 90% job seekers từng bị ghosting sau khi apply hoặc phỏng vấn</li>
+  </ul>
+  <p>Nghĩa là thị trường rộng ở tầng vĩ mô, nhưng cạnh tranh gay gắt ở tầng cá nhân.</p>
+
+  <div class="callout dark">
+    <p>Doanh nghiệp đang chỉ thiếu người giỏi. Đây là câu tóm tắt chính xác nhất cho thị trường 2026.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p1-2">1.2 Thị trường job online Việt Nam: Tiền ở đâu và bẫy ở đâu?</h2>
+  <p>So với thị trường job remote - online quốc tế, thị trường trong nước có quy mô nhỏ hơn nhưng cũng đang mở rộng đều - và rào cản gia nhập thấp hơn vì không đòi hỏi tiếng Anh.</p>
+
+  <h3>Tiền ở đâu?</h3>
+  <p>22% tổng tin tuyển dụng trên các nền tảng lớn hiện có yếu tố remote hoặc hybrid, tăng gần gấp 3 lần so với 8% năm 2022. Dù thị trường đang mở rộng thật, nhưng thu nhập bạn nhận được phụ thuộc lớn vào việc bạn đang làm cho ai.</p>
+  <p>Làm cho khách trong nước và làm cho khách quốc tế là hai thị trường khác nhau hoàn toàn về mức lương. Cùng một vị trí content writer hay virtual assistant, làm cho công ty nước ngoài có thể mang lại thu nhập cao hơn 1,5 đến 3 lần so với làm cho khách Việt Nam.</p>
+
+  <p><strong>Các ngành đang có nhiều tin remote nhất tại Việt Nam:</strong></p>
+  <ul>
+    <li>Tiếp thị & truyền thông số: digital marketing, social media, booking KOC</li>
+    <li>Bán hàng & kinh doanh online</li>
+    <li>CNTT & dữ liệu: lập trình viên, data analyst, IT support</li>
+    <li>Chăm sóc khách hàng online: thương mại điện tử, fintech, logistics</li>
+    <li>Giáo dục online: gia sư, giáo viên tiếng Anh</li>
+  </ul>
+
+  <h3>Bẫy ở đâu?</h3>
+  <p>Đây là phần mình muốn bạn đọc kỹ trước khi bắt đầu tìm job online. Không phải để sợ, mà để không mất thời gian và tiền oan.</p>
+  <p>Theo cảnh báo của Cục An toàn thông tin, lừa đảo trực tuyến tại Việt Nam năm 2025 gây thiệt hại hơn 6.000 tỷ đồng, trong đó lừa đảo tuyển dụng là một trong những hình thức phổ biến và ngày càng tinh vi hơn.</p>
+
+  <p><strong>5 hình thức lừa đảo phổ biến nhất trong tuyển dụng online hiện nay:</strong></p>
+  <ul>
+    <li><strong>"Cộng tác viên" đơn hàng ảo.</strong> Giả danh sàn thương mại điện tử lớn như Shopee, Lazada, Tiki. Yêu cầu nạp tiền để kích hoạt nhiệm vụ, ban đầu cho rút tiền nhỏ để tạo lòng tin, sau đó mất toàn bộ.</li>
+    <li><strong>Job lương cao bất thường, yêu cầu thấp bất thường.</strong> Làm vài tiếng mỗi ngày, thu nhập 10-20 triệu mỗi tuần, không cần kinh nghiệm. Dạng công việc này, không tồn tại trong thực tế.</li>
+    <li><strong>Giả mạo công ty uy tín.</strong> Dùng logo và tên công ty thật nhưng email là Gmail cá nhân, không có địa chỉ cụ thể, chỉ liên hệ qua Zalo hoặc Telegram.</li>
+    <li><strong>Yêu cầu đặt cọc hoặc phí đào tạo.</strong> Nhà tuyển dụng thật không bao giờ thu tiền ứng viên trước khi bắt đầu làm việc. Không có ngoại lệ.</li>
+    <li><strong>Bẫy tuyển dụng phát tán mã độc.</strong> Gửi file mô tả công việc hoặc bài test năng lực thực chất là phần mềm độc hại để chiếm quyền thiết bị.</li>
+  </ul>
+
+  <div class="callout dark">
+    <p>3 nguyên tắc bảo vệ bản thân: (1) Không chuyển bất kỳ khoản tiền nào trước khi ký hợp đồng. (2) Không cung cấp CCCD, số tài khoản, mã OTP cho người lạ qua mạng. (3) Không mở file đính kèm từ nguồn tuyển dụng không rõ ràng.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p1-3">1.3 Tại sao 2026 lại khó tìm job online - remote hơn giai đoạn trước</h2>
+  <p>Nếu bạn bắt đầu tìm job remote - online từ 2020-2022, bạn sẽ nhớ công ty nào cũng cần người làm online, tin tuyển dụng tràn ngập, điều kiện ứng tuyển cũng dễ dàng. Nhưng năm 2026, không còn như vậy nữa - và có 4 lý do cụ thể giải thích tại sao.</p>
+
+  <h3>Thay đổi 01: Fully remote đang ít đi, hybrid đang thay thế</h3>
+  <p>Trên toàn cầu, làn sóng "Return to Office" (RTO) đang mạnh lên rõ rệt. Amazon yêu cầu toàn bộ nhân sự quay lại văn phòng 5 ngày/tuần từ đầu 2025. 55% công ty Fortune 100 hiện yêu cầu đi làm full-time tại văn phòng - tăng từ chỉ 11% một năm trước. 30% công ty toàn cầu có kế hoạch xóa bỏ hoàn toàn remote work.</p>
+  <p>Job fully remote không còn là "bình thường mới" - nó đang trở thành đặc quyền của người có kỹ năng đủ mạnh để được lựa chọn.</p>
+
+  <h3>Thay đổi 2: Yêu cầu kỹ năng tăng lên, đặc biệt là AI</h3>
+  <p>Năm 2022-2023, nhiều công ty tuyển remote và chấp nhận đào tạo thêm. Năm 2026, xu hướng đảo chiều: doanh nghiệp đang tối ưu hiệu suất thay vì mở rộng quy mô, tập trung vào "làm ít người hơn nhưng mỗi người làm được nhiều hơn".</p>
+  <p>Người biết kết hợp kỹ năng chuyên môn với AI tools đang có lợi thế rõ rệt so với người làm theo cách cũ. Đây không còn là "điểm cộng" mà đang dần thành điều kiện cơ bản.</p>
+
+  <h3>Thay đổi 3: Thị trường phân hóa rõ hơn bao giờ hết</h3>
+  <ul>
+    <li><strong>Tầng trên</strong> - người có kỹ năng thật, portfolio thuyết phục, tiếng Anh tốt → Lương tăng 15-25%, cơ hội nhiều hơn, được chủ động lựa chọn.</li>
+    <li><strong>Tầng dưới</strong> - kỹ năng phổ thông, chưa có portfolio, làm theo hướng dẫn → Cạnh tranh gay gắt về giá, dễ bị thay thế bởi AI hoặc người ở quốc gia có chi phí thấp hơn.</li>
+  </ul>
+
+  <div class="callout">
+    <p>Khoảng cách giữa hai tầng này đang ngày càng rộng ra. Nếu người đang ở tầng dưới không có kế hoạch dịch chuyển lên tầng trên thì sẽ ngày càng thêm khó khăn.</p>
+  </div>
+
+  <h3>Thay đổi 4: Số lượng người có nhu cầu tìm việc remote - online tăng lên</h3>
+  <p>Số người tìm job online và remote đang tăng không phải do thị trường hấp dẫn hơn. Một phần đáng kể đến từ làn sóng layoff ở các công ty lớn và chính sách Return to Office đang mở rộng.</p>
+  <p>Kết quả là: cùng một lượng job remote đang có trên thị trường, nhưng số người cạnh tranh cho những vị trí đó đang tăng lên.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p1-4">1.4 AI đang thay đổi thị trường job online như thế nào?</h2>
+  <p>Không phải AI sẽ thay thế bạn - mà người thành thạo AI sẽ thay thế bạn. Câu này nghe đã rất quen rồi. Nhưng khi nhìn vào số liệu thực tế, nó không còn là lời khuyên nữa - nó là mô tả chính xác nhất cho điều đang xảy ra với thị trường job online.</p>
+
+  <h3>AI đang thay thế những công việc online - remote nào?</h3>
+  <p>Nghiên cứu từ Harvard Business School, Imperial College London và DIW Berlin theo dõi 1,4 triệu tin tuyển dụng freelance trên toàn cầu sau khi ChatGPT ra đời:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Ngành</th><th>Mức giảm tin tuyển dụng</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Viết content / Copywriting</td><td>30 - 33%</td></tr>
+        <tr><td>2</td><td>Dịch thuật phổ thông</td><td>9%</td></tr>
+        <tr><td>3</td><td>Lập trình, web/app development</td><td>21%</td></tr>
+        <tr><td>4</td><td>Thiết kế đồ họa</td><td>17%</td></tr>
+        <tr><td>5</td><td>Customer support theo kịch bản</td><td>16%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>AI đang tạo ra những cơ hội gì?</h3>
+  <p>Cùng nghiên cứu Harvard và Imperial College đó cũng ghi nhận một chiều ngược lại: sau khi ChatGPT ra đời, số tin tuyển dụng yêu cầu kỹ năng ChatGPT tăng đều 0,68 tin/tuần - liên tục và chưa có dấu hiệu dừng lại.</p>
+  <p>Dữ liệu từ Upwork xác nhận thêm: nhu cầu tuyển người có kỹ năng AI tăng 27% so với năm trước. Lương nhóm tech/AI tại Việt Nam tăng 15-25% năm 2026, đạt mức tăng cao nhất trong tất cả các ngành.</p>
+
+  <h3>Thị trường đang chia đôi - bạn đang ở phía nào?</h3>
+  <div class="compare-table">
+    <div class="compare-col-header good">Đang hưởng lợi hoặc giữ phong độ</div>
+    <div class="compare-col-header bad">Đang chịu áp lực cực lớn</div>
+    <div class="compare-item good">Content có chiều sâu chuyên môn, storytelling, quan điểm thật</div>
+    <div class="compare-item bad">Viết content cơ bản, SEO template, mô tả sản phẩm</div>
+    <div class="compare-item good">AI Design và AI Video - người biết dùng tools tốt có thể làm gấp 3-5 lần năng suất cũ</div>
+    <div class="compare-item bad">Dịch thuật phổ thông không cần chuyên môn sâu</div>
+    <div class="compare-item good">Prompt engineering và AI workflow</div>
+    <div class="compare-item bad">Customer support theo kịch bản cố định</div>
+    <div class="compare-item good">Virtual Assistant cấp cao - xử lý phán đoán, mối quan hệ, tình huống không có trong kịch bản</div>
+    <div class="compare-item bad">Data entry, nhập liệu, báo cáo routine</div>
+    <div class="compare-item good">SEO chiến lược, content strategy - AI làm được draft nhưng không làm được phán đoán</div>
+    <div class="compare-item bad">QA testing thủ công, junior coding đơn giản</div>
+  </div>
+
+  <div class="callout dark">
+    <p>Thị trường đang trả nhiều hơn cho người biết dùng AI như đòn bẩy. Không phải vì AI khan hiếm mà vì người biết kết hợp AI với chuyên môn thật vẫn còn rất ít.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p1-5">1.5 Chân dung những người đang làm remote - online 2026</h2>
+  <p>Thị trường 2026 không thưởng người chăm chỉ nhất. Điều đó dành cho người định vị bản thân chính xác nhất.</p>
+  <p>Sau nhiều năm quan sát cộng đồng và làm tuyển dụng, mình nhận ra những người đang làm tốt trong thị trường job online không nhất thiết giỏi hơn những người đang loay hoay. Họ chỉ đang làm 3 thứ khác đi.</p>
+
+  <h3>Họ bán giá trị, chứ không tìm việc</h3>
+  <p>Khi apply một vị trí, họ không nghĩ "mình có phù hợp không" mà nghĩ "mình có thể giải quyết vấn đề gì cho công ty này." CV của họ có kết quả cụ thể, có con số, có bối cảnh. Portfolio của họ trả lời câu hỏi "bạn đã làm được gì" chứ không phải "bạn biết làm gì."</p>
+
+  <h3>Họ vừa học vừa làm thật, chứ không chờ học xong mới bắt đầu</h3>
+  <p>Họ không chờ đủ điều kiện. Họ bắt đầu sớm hơn mức họ nghĩ là sẵn sàng, tạo ra sản phẩm thật trong quá trình học và biến những thứ đó thành portfolio. Sau 6 tháng họ có cả kỹ năng lẫn bằng chứng.</p>
+
+  <h3>Họ dùng AI như đòn bẩy tăng tốc, chứ không phải mối đe doạ</h3>
+  <p>Họ không hỏi "AI có thay thế mình không" - họ hỏi "AI có thể giúp mình làm được gấp 3 lần không." Cùng một công việc, cùng một thời gian, họ ra được nhiều output hơn, chất lượng hơn.</p>
+</div>
+
+<!-- PHẦN 2 -->
+<div class="part-header" id="p2">
+  <div class="part-number">Phần 2</div>
+  <div class="part-title">Dự báo bức tranh thị trường 2027</div>
+</div>
+
+<div class="content">
+  <h2 id="p2-trends">3 xu hướng thị trường job online - remote 2027</h2>
+
+  <h3>Xu hướng 1 - Portfolio first: Không cần biết bạn là ai, hãy cho chúng tôi thấy năng lực của bạn trước</h3>
+  <p>Nếu 2026 là năm portfolio bắt đầu quan trọng hơn bằng cấp, thì 2027 là năm portfolio trở thành điều kiện để được xem xét.</p>
+  <p>Dấu hiệu đang thấy rõ từ cuối 2026: ngày càng nhiều JD yêu cầu đính kèm portfolio hoặc link sản phẩm ngay trong form apply. Không qua được bước này thì hồ sơ không đến tay recruiter.</p>
+  <p>Người không có portfolio trong 2027 sẽ không phải người khó tìm việc hơn, mà họ sẽ "chìm" ngay từ đầu.</p>
+
+  <h3>Xu hướng 2 - AI automation trở thành điều kiện bắt buộc</h3>
+  <p>Năm 2026, biết dùng AI là điểm cộng trong mắt nhà tuyển dụng. Năm 2027, không biết dùng AI là điểm trừ.</p>
+  <p>Sự thay đổi này không đến từ việc AI trở nên phổ biến hơn mà đến từ việc kỳ vọng về năng suất đang thay đổi. Khi một người biết dùng AI có thể làm được khối lượng công việc cao gấp 3 đến 5 lần, nhà tuyển dụng sẽ không còn chấp nhận trả cùng mức lương cho năng suất thấp hơn.</p>
+
+  <h3>Xu hướng 3 - Khoảng cách giữa tầng trên và tầng dưới ngày càng rộng, tầng dưới đang mờ dần và biến mất</h3>
+  <p>Đây là xu hướng ít được nói đến nhất nhưng có tác động lớn nhất với người đang ở giai đoạn đầu sự nghiệp remote - online.</p>
+  <p>Những task entry-level mà người mới thường dùng để tích lũy kinh nghiệm như viết content cơ bản, dịch thuật phổ thông, data entry, customer support theo kịch bản đang bị AI thay thế và hiếm khi xuất hiện trên thị trường.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p2-niches">09 ngách cơ hội trong 2027</h2>
+  <p>Dưới đây là 9 ngách job online - remote mà mình thấy có tín hiệu tăng trưởng rõ trong 2027, căn cứ từ thực trạng thị trường 2026 và quan sát thực chiến từ headhunting.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Ngách</th><th>Xu hướng 2027</th><th>Cần tiếng Anh?</th><th>Thời gian chuẩn bị</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Vận hành sàn TMĐT</td><td>Tăng trưởng - TikTok Shop bùng nổ</td><td>Tuỳ thị trường</td><td>1-3 tháng</td></tr>
+        <tr><td>Marketing sàn TMĐT</td><td>Tăng trưởng mạnh - Livestream commerce</td><td>Tuỳ thị trường</td><td>2-4 tháng</td></tr>
+        <tr><td>Blockchain / Web3</td><td>Tăng trưởng mạnh - +45% job posting</td><td>Bắt buộc</td><td>3-6 tháng</td></tr>
+        <tr><td>AI Design & AI Video</td><td>Bùng nổ - ít người làm thật</td><td>Tuỳ thị trường</td><td>1-2 tháng</td></tr>
+        <tr><td>Amazon / Shopify</td><td>Tăng trưởng - mở rộng ĐNA</td><td>Bắt buộc</td><td>4-6 tháng</td></tr>
+        <tr><td>KOC/KOL Booking</td><td>Tăng trưởng - chuyên nghiệp hóa</td><td>Tuỳ thị trường</td><td>1-3 tháng</td></tr>
+        <tr><td>Affiliate Marketing</td><td>Tăng trưởng - video commerce</td><td>Tuỳ thị trường</td><td>3-6 tháng</td></tr>
+        <tr><td>HR Online</td><td>Tăng trưởng - remote tăng → HR từ xa tăng</td><td>Tuỳ thị trường</td><td>2-4 tháng</td></tr>
+        <tr><td>Virtual Assistant</td><td>Phân hóa - tầng cao tăng</td><td>Tuỳ thị trường</td><td>2-3 tháng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #1 - Vận hành sàn TMĐT | Shopee · Lazada · TikTok Shop</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Thị trường TMĐT Việt Nam đạt 13,6 tỷ USD năm 2026, tăng 37% so với năm trước. TikTok Shop bùng nổ với mức tăng trưởng GMV +83% và đang tiến sát Shopee về thị phần.</p>
+      </div>
+      <div class="niche-section">
+        <div class="niche-section-title">Ai phù hợp với ngách này</div>
+        <ul style="margin:0; padding-left:18px;">
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:5px;">Biết sử dụng Seller Center của ít nhất 1 sàn (Shopee / TikTok Shop)</li>
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:5px;">Hiểu quy trình xử lý đơn hàng, chăm sóc khách hàng cơ bản</li>
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:5px;">Đọc và phân tích được báo cáo doanh thu cơ bản trên sàn</li>
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:0;">Tư duy tỉ mỉ, xử lý được nhiều đầu việc cùng lúc</li>
+        </ul>
+      </div>
+      <div class="niche-quote">Ngách này phù hợp để bắt đầu nhưng đừng dừng lại ở việc chỉ biết vận hành. Người stuck ở mức 8-10 triệu nhiều năm thường là người chỉ thực thi theo hướng dẫn. Người lên được 15-20 triệu là người biết đọc data và đề xuất cải thiện. Nếu bạn có tiếng Anh - nhắm thẳng vào Shopee Regional hoặc TikTok Shop Global ngay từ đầu.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #2 - Marketing sàn TMĐT</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Marketing sàn là tầng tiếp theo sau vận hành và được trả lương cao hơn rõ rệt. Nhu cầu người biết chạy Shopee Ads, TikTok Shop Ads và lên chiến lược bán hàng đang tăng mạnh trong 2027.</p>
+      </div>
+      <div class="niche-section">
+        <div class="niche-section-title">Kỹ năng cần có</div>
+        <ul style="margin:0; padding-left:18px;">
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:5px;">Biết chạy quảng cáo nội sàn (Shopee Ads hoặc TikTok Shop Ads)</li>
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:5px;">Tư duy dựa trên số liệu - đọc được báo cáo và tối ưu campaign</li>
+          <li style="font-size:13px; color:var(--text-light); margin-bottom:0;">Hiểu hành vi mua sắm của người dùng trên sàn</li>
+        </ul>
+      </div>
+      <div class="niche-quote">Marketing sàn là con đường nâng cấp tự nhiên nhất từ vận hành. Nếu bạn đang làm vận hành được 6-12 tháng, đây là bước tiếp theo hợp lý nhất để tăng thu nhập mà không cần bắt đầu lại từ đầu.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #3 - Blockchain / Web3</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Blockchain job posting tăng 45% trong 2026. 87% job blockchain là remote toàn phần - tỷ lệ cao nhất trong tất cả các ngách. Lương developer blockchain cao hơn 35-50% so với developer truyền thống ở cùng cấp độ. Điểm quan trọng: 53,4% vị trí blockchain là phi kỹ thuật - không cần biết code mới vào được ngách này.</p>
+      </div>
+      <div class="niche-quote">Đây là ngách mà người có tiếng Anh tốt và chịu bỏ thời gian học có thể đi rất nhanh - vì đối thủ ít. Nhưng cũng là ngách mình thường khuyên người mới cần có kế hoạch B vì thị trường crypto biến động và ảnh hưởng trực tiếp đến tuyển dụng.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #4 - AI Design & AI Video</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Đây là ngách tăng trưởng nhanh nhất trong 12 tháng qua. Nhu cầu tuyển người có kỹ năng AI tăng 27% theo Upwork. Các tools AI thế hệ mới như Sora, Kling, Veo 3 đang rút ngắn thời gian sản xuất video từ ngày xuống còn giờ. Job AI Video Editor quốc tế đang phổ biến với mức lương 700-2.000 USD/tháng remote toàn phần.</p>
+      </div>
+      <div class="niche-quote">Nếu bạn đang làm design hay video editing theo cách truyền thống - đây không phải mối đe dọa, đây là đòn bẩy. Người biết dùng AI làm được gấp 3-5 lần lượng công việc trong cùng thời gian.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #5 - Amazon / Shopify (E-commerce quốc tế)</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Amazon tiếp tục mở rộng tại Đông Nam Á trong 2027. Xu hướng China+1 tiếp tục thúc đẩy các công ty Mỹ tìm nhân sự từ Việt Nam. Đây là ngách yêu cầu đầu tư thời gian học dài hơn (4-6 tháng) nhưng mức lương sau khi vào được thị trường quốc tế cao hơn hầu hết các ngách khác.</p>
+      </div>
+      <div class="niche-quote">Đây là ngách mà đầu tư ban đầu cao nhưng lợi nhuận dài hạn rõ ràng. Người kiên nhẫn đi đến cùng thường đạt mức 1.000-2.000 USD/tháng trong năm đầu tiên.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #6 - KOC/KOL Booking</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Livestream commerce tiếp tục tăng trưởng mạnh. Nhu cầu booking KOC/KOL tăng theo - đặc biệt khi các brand đang chuyển ngân sách từ quảng cáo truyền thống sang content creator và live selling.</p>
+      </div>
+      <div class="niche-quote">Ngách này phù hợp với người năng động, thích giao tiếp và đã có sẵn network trong ngành content. Thu nhập có thể tăng nhanh nếu bạn build được database tốt và có track record campaign hiệu quả.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #7 - Affiliate Marketing</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Thị trường affiliate toàn cầu đang tăng trưởng với CAGR trên 15% tại khu vực APAC. Video content giúp tăng tỷ lệ chuyển đổi 82% so với text thuần túy. Lưu ý quan trọng: affiliate là ngách dài hạn - thường cần 8-12 tháng để có thu nhập ổn định.</p>
+      </div>
+      <div class="niche-quote">Affiliate là ngách dành cho người kiên nhẫn và tư duy dài hạn. 8-12 tháng đầu gần như không có thu nhập đáng kể. Nhưng người vượt qua được giai đoạn đó thường có nguồn thu nhập bền vững và tự do nhất trong tất cả các ngách.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #8 - HR Online / Tuyển dụng từ xa</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Khi remote work tiếp tục tăng trong 2027, nhu cầu HR biết vận hành từ xa cũng tăng theo. Freelance recruiter và headhunter cộng tác viên đang là mô hình tăng trưởng nhanh - đặc biệt trong các ngành tech, digital marketing và e-commerce.</p>
+      </div>
+      <div class="niche-quote">Người làm HR online thành công nhất không phải người biết nhiều quy trình - mà là người hiểu sâu một hoặc hai ngành và có network đủ rộng để tìm ứng viên nhanh.</div>
+    </div>
+  </div>
+
+  <div class="niche-card">
+    <div class="niche-card-header">
+      <div class="niche-card-title">Ngách #9 - Virtual Assistant (VA)</div>
+    </div>
+    <div class="niche-card-body">
+      <div class="niche-section">
+        <div class="niche-section-title">Tín hiệu tăng trưởng 2027</div>
+        <p style="margin:0; font-size:14px; color:var(--text-light);">Job VA tăng 35% trong 2025 dù AI được cho là sẽ thay thế ngành này. Trong 2027, vai trò VA đang phân hóa rõ: VA phổ thông đang bị AI thu hẹp; VA chuyên biệt (Executive Assistant, AI Operator, Project Coordinator) đang được tuyển nhiều hơn và lương cao hơn.</p>
+      </div>
+      <div class="niche-quote">Nếu bạn muốn vào ngách VA năm 2027 - đừng vào với mindset làm task cho người khác. Vào với mindset giúp client làm việc hiệu quả hơn bằng cách kết hợp khả năng của mình và AI. Người có mindset đó đang được trả 1.000-2.000 USD/tháng.</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p2-roadmap">Lộ trình đầu tư vào bản thân 2027</h2>
+  <p>Bạn không cần phải bắt đầu tất cả cùng lúc. Đây là thứ tự mình gợi ý dựa vào những gì mà thị trường job online - remote đang đòi hỏi và những gì tạo ra kết quả thực tế trong thời gian ngắn nhất.</p>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot">1</div>
+    <div class="roadmap-content">
+      <div class="roadmap-title">Portfolio thinking: Biến mọi thứ mình làm thành bằng chứng</div>
+      <div class="roadmap-time">Bắt đầu ngay · Thấy kết quả sau 6-12 tháng</div>
+      <div class="roadmap-desc">Portfolio thinking không phải kỹ năng kỹ thuật mà là thói quen. Thói quen tài liệu hoá công việc mình làm. Thói quen đặt câu hỏi "kết quả của việc này là gì và mình có thể đo được không?" sau mỗi project.</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot">2</div>
+    <div class="roadmap-content">
+      <div class="roadmap-title">Tiếng Anh functional: Không cần hoàn hảo, cần đủ để làm việc thật</div>
+      <div class="roadmap-time">Bắt đầu ngay · Thấy kết quả sau 12-18 tháng</div>
+      <div class="roadmap-desc">Tiếng Anh functional là mức đủ để đọc JD, viết email chuyên nghiệp và giao tiếp cơ bản trong công việc. Xu hướng China+1, thị trường Blockchain/Web3, job Amazon/Shopify và các vị trí remote tốt nhất đều đang đòi hỏi tiếng Anh ở mức functional trở lên.</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot">3</div>
+    <div class="roadmap-content">
+      <div class="roadmap-title">AI fluency: Không phải biết dùng AI, mà là biết kết hợp AI với chuyên môn</div>
+      <div class="roadmap-time">3-6 tháng tới · Thấy kết quả sau 3-6 tháng</div>
+      <div class="roadmap-desc">Biết dùng ChatGPT để viết email không phải AI fluency. AI fluency là khả năng xác định được task nào AI làm tốt hơn bạn, task nào cần bạn kiểm soát, và cách tạo ra workflow kết hợp cả hai.</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot">4</div>
+    <div class="roadmap-content">
+      <div class="roadmap-title">Personal branding: Để người tuyển dụng tìm thấy bạn trước khi bạn apply</div>
+      <div class="roadmap-time">3-6 tháng tới · Thấy kết quả sau 6-24 tháng</div>
+      <div class="roadmap-desc">Personal branding không có nghĩa là phải nổi tiếng hay có hàng nghìn follower. Nó có nghĩa là khi ai đó search tên bạn hoặc search ngách bạn đang làm, họ tìm thấy được bằng chứng về năng lực của bạn: một LinkedIn profile cập nhật, một portfolio online, hoặc một vài bài viết chia sẻ kiến thức trong ngách của mình.</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot">5</div>
+    <div class="roadmap-content">
+      <div class="roadmap-title">Ngôn ngữ thứ ba: Lợi thế khó sao chép nhất</div>
+      <div class="roadmap-time">Dài hạn 12-24 tháng</div>
+      <div class="roadmap-desc">Tiếng Anh đang trở thành điều kiện cơ bản - nghĩa là nó không còn là lợi thế nữa khi ngày càng nhiều người có được. Thứ tạo ra lợi thế cạnh tranh thật sự trong 2027 là ngôn ngữ thứ ba. Từ thực tế tuyển dụng, người có thêm tiếng Trung, tiếng Hàn hoặc tiếng Nhật được tuyển nhanh hơn, được trả cao hơn và có ít đối thủ cạnh tranh hơn đáng kể.</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p2-traps">2027 và những chiếc bẫy</h2>
+  <p><em>Thị trường 2027 có nhiều cơ hội hơn người ta nghĩ. Nhưng nó cũng có nhiều bẫy hơn người ta nghĩ mình có thể tránh được. Những bẫy này không phải đến 2027 mới xuất hiện. Chúng đã có từ 2026 và trước đó. Điều khác biệt là trong 2027 chúng sẽ tinh vi hơn, khó nhận ra hơn và hệ quả sẽ nặng nề hơn.</em></p>
+
+  <h3>Bẫy 1 - Cạnh tranh bằng giá để có job đầu tiên</h3>
+  <p>Người mới vào thị trường thường nghĩ rằng báo giá thấp hơn là cách nhanh nhất để có khách hàng đầu tiên. Điều đó không sai nếu bạn ở giai đoạn đầu, nhưng đó là vấn đề là khi bạn đang thu hút đúng nhóm khách hàng chỉ quan tâm đến giá. Và nhóm khách hàng đó sẽ không bao giờ trả bạn nhiều hơn dù bạn giỏi đến đâu.</p>
+
+  <h3>Bẫy 2 - Bắt đầu từ task đơn giản với kỳ vọng sẽ lên dần</h3>
+  <p>Đây là cái bẫy trông rất hợp lý: bắt đầu từ việc nhỏ để tích lũy kinh nghiệm rồi dần dần lên việc lớn hơn. Logic đó từng đúng. Nhưng trong 2027 nó đang trở nên nguy hiểm vì những task entry-level mà người mới thường dùng để bắt đầu như viết content cơ bản, dịch thuật phổ thông, data entry và customer support theo kịch bản đang bị AI thay thế và hiếm khi xuất hiện.</p>
+
+  <h3>Bẫy 3 - Job quá hấp dẫn vào đúng lúc đang cần việc nhất</h3>
+  <p>Lừa đảo tuyển dụng nhắm vào người đang cần việc và thấy hứng khởi khi có công việc phù hợp. Trong 2027, các chiêu lừa đảo tiếp tục tinh vi hơn khi tội phạm bắt đầu dùng AI và deepfake để tạo ra job giả trông giống job thật đến mức ngay cả người có kinh nghiệm cũng khó nhận ra ngay.</p>
+
+  <h3>Bẫy 4 - Đầu tư thời gian vào những kỹ năng thị trường đang không còn cần</h3>
+  <p>Đây là bẫy khó nhận ra nhất vì nó trông như một quyết định đúng đắn. Bạn thấy một ngách đang có nhiều job, bạn tìm khóa học, bạn học nghiêm túc. Nhưng nếu ngách đó đang bị AI thu hẹp và bạn không biết, bạn có thể mất 6 đến 12 tháng để học một kỹ năng mà thị trường đang trả ngày càng ít hơn cho nó.</p>
+  <p>Cách tự bảo vệ tốt nhất là trước khi đầu tư thời gian vào một kỹ năng, hãy kiểm tra xem nhu cầu tuyển dụng cho kỹ năng đó đang tăng hay giảm trong 12 tháng gần nhất.</p>
+</div>
+
+<!-- PHẦN 3 -->
+<div class="part-header" id="p3">
+  <div class="part-number">Phần 3</div>
+  <div class="part-title">Chiến thuật "đậu" job 2027</div>
+</div>
+
+<div class="content">
+  <h2 id="p3-mistakes">Trước khi bắt đầu, hãy kiểm tra xem mình có đang mắc những sai lầm này không</h2>
+  <p>Phần lớn người tìm job remote - online thất bại không phải vì thiếu kỹ năng. Họ thất bại vì đang đi sai hướng mà không biết. Dưới đây là 6 sai lầm phổ biến nhất mình quan sát được từ cộng đồng và từ góc nhìn headhunting.</p>
+
+  <h3>Sai lầm #1 - Hiểu sai về bản chất của job remote</h3>
+  <p>Mình thấy nhiều người đến với job remote - online với những kỳ vọng như: remote là tự do hoàn toàn về thời gian, không có deadline cứng, không bị ai quản lý. Sự thật là job remote - online chất lượng đòi hỏi sự chuyên nghiệp ngang hoặc hơn job onsite. Bạn vẫn phải đáp ứng deadline. Vẫn phải họp đúng giờ. Vẫn phải deliver kết quả đo lường được.</p>
+
+  <h3>Sai lầm #2 - Không biết tỷ lệ cạnh tranh thật sự của job remote</h3>
+  <p>Nhiều người bắt đầu tìm job remote - online với tâm thế "chắc dễ hơn job onsite". Thực tế ngược lại hoàn toàn. Job remote không có giới hạn địa lý, nghĩa là bạn không chỉ cạnh tranh với người cùng thành phố hay cùng quốc gia. Một tin tuyển dụng remote từ công ty Mỹ có thể nhận hồ sơ từ Việt Nam, Philippines, Ấn Độ, Ukraine và Brazil cùng lúc.</p>
+
+  <h3>Sai lầm #3 - Không biết mình đang bán gì, nhà tuyển dụng đang mua gì</h3>
+  <p>Hồ sơ liệt kê kỹ năng nhưng không trả lời được câu hỏi của nhà tuyển dụng: "Bạn giải quyết được vấn đề gì cho tôi?" Mình đọc rất nhiều CV có đầy đủ các mục: kỹ năng, công cụ, kinh nghiệm nhưng đọc xong vẫn không hình dung được người này sẽ làm được gì cụ thể.</p>
+
+  <h3>Sai lầm #4 - Bỏ cuộc sau vài lần bị từ chối</h3>
+  <p>Bị từ chối 5 đến 10 lần rồi kết luận "job remote - online không dành cho mình" là mẫu chung mình thường xuyên thấy. Nhưng hãy nhìn lại con số này: trung bình cần 32 đến 200 lần gửi CV mới có offer. Nghĩa là bị từ chối không phải dấu hiệu thất bại mà là phần bình thường của quá trình này.</p>
+
+  <h3>Sai lầm #5 - Học xong khóa học là nghĩ mình sẵn sàng apply</h3>
+  <p>Lý do rất đơn giản: nhà tuyển dụng không tuyển người biết lý thuyết mà tuyển người làm được việc trong thực tế. Chứng chỉ chỉ chứng minh bạn đã học được kỹ năng đó. Còn portfolio là thứ chứng minh bạn đã làm được kỹ năng đó. Hai thứ này không thể thay thế nhau.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p3-right">3 ĐÚNG cần làm</h2>
+
+  <h3>Tìm job đúng nơi</h3>
+  <p>Có 3 nguồn job remote - online chính, phù hợp với từng giai đoạn khác nhau:</p>
+  <ul>
+    <li><strong>Nền tảng tuyển dụng</strong> như Vlance, TopDev, Upwork, LinkedIn - điểm bắt đầu phổ biến nhất. Dễ tiếp cận, nhiều job cho người mới nhưng cạnh tranh cao.</li>
+    <li><strong>Cộng đồng nghề nghiệp</strong> - các group theo ngành, cộng đồng freelancer hoặc remote worker. Job thường ít cạnh tranh hơn nhưng cần tự kiểm tra độ uy tín.</li>
+    <li><strong>Network cá nhân</strong> - nguồn job chất lượng nhất. Ít cạnh tranh, độ tin cậy cao nhưng cần thời gian xây dựng.</li>
+  </ul>
+
+  <h3>Đầu tư đúng chỗ</h3>
+  <p>Thứ tự đầu tư đúng cho người chuẩn bị vào thị trường job online 2027: có kỹ năng thật trước, chứng minh kỹ năng đó bằng portfolio, sau đó mới bổ sung thêm kỹ năng còn gap so với yêu cầu của ngách mình muốn vào.</p>
+  <p>CV tốt và portfolio thuyết phục là hai khoản đầu tư tạo ra kết quả nhanh nhất và rõ nhất trong quá trình tìm job.</p>
+
+  <h3>Sử dụng đúng tư duy</h3>
+  <p>Tỷ lệ đậu job online và remote rất nhỏ. Trung bình cần 32 đến 200 lần gửi CV mới có một offer. Người không biết điều này sẽ bỏ cuộc sau vài lần bị từ chối. Người biết điều này sẽ xem mỗi lần từ chối là một bước bình thường trong quá trình, không phải dấu hiệu thất bại.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p3-cv">Nghiêm khắc với bản thân như một nhà tuyển dụng</h2>
+  <p>Phần lớn người tìm job remote - online đánh giá bản thân theo góc nhìn của người đi xin việc: mình có đủ điều kiện không, mình có phù hợp không. Nhưng nhà tuyển dụng nhìn theo góc hoàn toàn khác: người này có giải quyết được vấn đề của mình không, hồ sơ này có đáng để dành thêm 3 phút không.</p>
+
+  <h3>CV của mình có đang mắc những lỗi này không?</h3>
+
+  <h4>Lý do #1 - CV liệt kê công việc thay vì bán giá trị</h4>
+  <div class="compare-table">
+    <div class="compare-col-header bad">CV bị loại (Task-based)</div>
+    <div class="compare-col-header good">CV được shortlist (Value-based)</div>
+    <div class="compare-item bad">Chạy quảng cáo Facebook</div>
+    <div class="compare-item good">Triển khai Facebook Ads, tối ưu CPA từ 120k xuống 85k (-30%) với ngân sách 300 triệu/tháng</div>
+    <div class="compare-item bad">Quản lý team marketing</div>
+    <div class="compare-item good">Lead team 6 người, xây chiến lược tăng doanh thu +42% trong 6 tháng</div>
+    <div class="compare-item bad">Viết content</div>
+    <div class="compare-item good">Xây hệ thống content - tăng lead từ 200 lên 850/tháng</div>
+    <div class="compare-item bad">Có kinh nghiệm thiết kế</div>
+    <div class="compare-item good">Thiết kế 50+ banner/tháng, tăng CTR quảng cáo 28% so với creative cũ</div>
+    <div class="compare-item bad">Làm virtual assistant</div>
+    <div class="compare-item good">Hỗ trợ 3 founder US, quản lý inbox 200+ email/ngày, đảm bảo 100% reply trong 24h</div>
+  </div>
+
+  <h4>Lý do #2 - Không có số liệu</h4>
+  <p>Recruiter tìm 4 tín hiệu trong hồ sơ: Tác động, Con số đo lường, Quy mô và Định vị. Hồ sơ thiếu con số là hồ sơ thiếu bằng chứng. Nhiều người nghĩ mình không có số liệu vì không làm sales hay marketing trực tiếp. Thực ra số liệu có thể đến từ nhiều hướng: quy mô team quản lý, ngân sách phụ trách, số lượng đầu việc xử lý mỗi tuần, tỷ lệ cải thiện quy trình.</p>
+
+  <h4>Lý do #3 - CV Canva đẹp nhưng bị loại bởi robot ATS</h4>
+  <div class="callout">
+    <p>CV chuẩn để vượt ATS là CV tối giản: một cột, font Arial hoặc Times New Roman, không có hình ảnh hay đồ họa. Đẹp với mắt người nhưng vô hình với robot - đó là lý do nhiều hồ sơ tốt bị loại ngay từ vòng đầu tiên mà người gửi không bao giờ biết.</p>
+  </div>
+
+  <h4>Lý do #4 - Summary mở đầu sáo rỗng</h4>
+  <div class="compare-table">
+    <div class="compare-col-header bad">Summary bị bỏ qua</div>
+    <div class="compare-col-header good">Summary được dừng mắt</div>
+    <div class="compare-item bad">Nhân viên marketing với nhiều kinh nghiệm, chăm chỉ, có khả năng chịu được áp lực cao.</div>
+    <div class="compare-item good">Performance Marketing Specialist với 4 năm kinh nghiệm trong eCommerce, từng scale ads từ 0 đến 3 tỷ/tháng.</div>
+  </div>
+
+  <h3>3 phút đầu nhà tuyển dụng nhìn vào hồ sơ mình thấy gì?</h3>
+  <ul>
+    <li><strong>Phút đầu - Scan nhanh:</strong> Recruiter không đọc từ trên xuống mà quét theo 5 điểm dừng: job title hiện tại, tên công ty đã làm, thời gian làm việc, thành tựu nổi bật nhất và kỹ năng có khớp JD không.</li>
+    <li><strong>Phút hai - Đọc kỹ hơn:</strong> Thứ họ tìm không phải danh sách công việc đã làm mà là bằng chứng kinh doanh: bạn đã tạo ra kết quả gì, ở quy mô nào, trong bối cảnh nào.</li>
+    <li><strong>Phút ba - Quyết định:</strong> Recruiter nhìn vào một thứ cuối cùng: portfolio hoặc link sản phẩm thật. Đây là điểm phân hóa lớn nhất giữa người được gọi và người không được gọi trong job online.</li>
+  </ul>
+
+  <div class="callout dark">
+    <p>CV tốt mở cánh cửa. Portfolio giữ bạn ở lại trong phòng. Recruiter mà mở link portfolio và thấy công việc thật, trình bày rõ ràng - quyết định shortlist thường xảy ra ngay lúc đó.</p>
+  </div>
+</div>
+
+<!-- PHẦN 4 -->
+<div class="part-header" id="p4">
+  <div class="part-number">Phần 4</div>
+  <div class="part-title">Checklist cá nhân</div>
+</div>
+
+<div class="content">
+  <h2 id="p4-self">Tự đánh giá: Mình đang ở đâu so với thị trường 2026</h2>
+  <p>Đọc xong báo cáo này, bạn đã có bức tranh thị trường. Bây giờ là lúc đặt mình vào trong bức tranh đó. Với mỗi câu, chọn một trong ba mức: Chưa / Đang làm / Đã có</p>
+
+  <div class="checklist">
+    <div class="checklist-group-title">Nhóm 1 - Hiểu thị trường</div>
+    <div class="checklist-grid">
+      <div class="checklist-col-header" style="grid-column:1">Câu hỏi</div>
+      <div class="checklist-col-header">Chưa</div>
+      <div class="checklist-col-header">Đang làm / Đã có</div>
+      <div class="checklist-item">Mình biết 2-3 nguồn tìm job online uy tín và tập trung tìm ở đó</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình biết mức lương thực tế của ngách mình muốn làm</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình hiểu tỷ lệ cạnh tranh thật sự của job remote - không chỉ trong nước mà cả quốc tế</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình biết job mình đang nhắm đến thuộc nhóm tăng trưởng, bão hòa hay thu hẹp</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình có thể nhận ra dấu hiệu job lừa đảo trước khi apply</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+    </div>
+  </div>
+
+  <div class="checklist" style="margin-top:20px;">
+    <div class="checklist-group-title">Nhóm 2 - Năng lực thực tế</div>
+    <div class="checklist-grid">
+      <div class="checklist-col-header" style="grid-column:1">Câu hỏi</div>
+      <div class="checklist-col-header">Chưa</div>
+      <div class="checklist-col-header">Đang làm / Đã có</div>
+      <div class="checklist-item">Mình có ít nhất 2-3 sản phẩm thật có thể show cho nhà tuyển dụng</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Portfolio của mình có thể truy cập được ngay - link hoạt động, nội dung rõ ràng</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình biết dùng ít nhất một AI tool phù hợp với ngách của mình</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình có thể mô tả kết quả công việc mình đã làm bằng con số cụ thể</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Tiếng Anh của mình đủ để đọc JD, viết email và giao tiếp cơ bản trong công việc</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+    </div>
+  </div>
+
+  <div class="checklist" style="margin-top:20px;">
+    <div class="checklist-group-title">Nhóm 3 - Cách tiếp cận thị trường</div>
+    <div class="checklist-grid">
+      <div class="checklist-col-header" style="grid-column:1">Câu hỏi</div>
+      <div class="checklist-col-header">Chưa</div>
+      <div class="checklist-col-header">Đang làm / Đã có</div>
+      <div class="checklist-item">CV của mình viết theo hướng value-based - có kết quả và con số cụ thể</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình viết lại CV hoặc cover letter cho từng job thay vì dùng chung một bản</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình đã luyện phỏng vấn online - test camera, mic, ánh sáng và thử trả lời câu hỏi</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình biết trả lời câu hỏi lương kỳ vọng với con số cụ thể và lý do rõ ràng</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình có thể giới thiệu bản thân trong 60-90 giây: Role + Kinh nghiệm + Kết quả + Lý do</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+    </div>
+  </div>
+
+  <div class="checklist" style="margin-top:20px;">
+    <div class="checklist-group-title">Nhóm 4 - Mindset</div>
+    <div class="checklist-grid">
+      <div class="checklist-col-header" style="grid-column:1">Câu hỏi</div>
+      <div class="checklist-col-header">Chưa</div>
+      <div class="checklist-col-header">Đang làm / Đã có</div>
+      <div class="checklist-item">Mình hiểu rằng 3-6 tháng là timeline thực tế để có job online đầu tiên</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình đang cạnh tranh bằng giá trị và định vị rõ ràng - không phải bằng cách báo giá thấp</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Khi bị từ chối hoặc bị ghosting, mình tiếp tục apply thay vì bỏ cuộc</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình đang xây kỹ năng dài hạn - không chỉ học thứ kiếm tiền ngay trong 1-2 tháng</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+      <div class="checklist-item">Mình xem bài test là cơ hội chứng minh năng lực - không phải rủi ro bị lấy chất xám</div>
+      <div class="checklist-item">☐</div><div class="checklist-item">☐</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p4-niche">Ngách nào phù hợp với xuất phát điểm của mình</h2>
+  <p>Không phải ngách nào cũng phù hợp với mọi người và chọn đúng ngách ngay từ đầu sẽ tiết kiệm cho bạn rất nhiều thời gian.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Xuất phát điểm của bạn</th><th>Ngách nên bắt đầu</th><th>Lý do</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Đang làm onsite TMĐT hoặc bán hàng online</td><td>Vận hành sàn TMĐT → Marketing sàn</td><td>Kỹ năng đã có, chỉ cần chuyển sang môi trường online</td></tr>
+        <tr><td>Có nền tảng thiết kế hoặc video editing</td><td>AI Design & AI Video</td><td>Kết hợp kỹ năng sẵn có với AI tools - lợi thế lớn</td></tr>
+        <tr><td>Làm content hoặc marketing</td><td>Marketing sàn TMĐT hoặc Affiliate Marketing</td><td>Chuyên môn đã có, cần thêm hiểu biết về nền tảng</td></tr>
+        <tr><td>Có tiếng Anh tốt, chưa có kỹ năng chuyên sâu</td><td>Virtual Assistant → Amazon/Shopify VA</td><td>Tiếng Anh là lợi thế lớn nhất, có thể học kỹ năng sau</td></tr>
+        <tr><td>Làm HR hoặc tuyển dụng onsite</td><td>HR Online / Freelance Recruiter</td><td>Kinh nghiệm trực tiếp chuyển đổi, ít rủi ro nhất</td></tr>
+        <tr><td>Quan tâm đến công nghệ, chịu học nhiều</td><td>Blockchain / Web3 (vai trò phi kỹ thuật)</td><td>Cơ hội lớn, cạnh tranh thấp nếu đầu tư đúng hướng</td></tr>
+        <tr><td>Có network KOC/KOL hoặc làm ngành beauty/fashion</td><td>KOC/KOL Booking</td><td>Network sẵn có là lợi thế không thể sao chép</td></tr>
+        <tr><td>Chưa có kỹ năng rõ ràng, muốn bắt đầu từ đầu</td><td>Vận hành sàn TMĐT hoặc VA phổ thông</td><td>Rào cản gia nhập thấp nhất, học nhanh nhất</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p>Đây là gợi ý xuất phát điểm - không phải giới hạn. Sau 6-12 tháng trong một ngách, bạn sẽ có đủ nền tảng để mở rộng hoặc chuyển hướng nếu muốn.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p4-action">3 việc cần làm trong 30 ngày tới</h2>
+  <p>Báo cáo dài 39 trang nhưng hành động trong 30 ngày tới chỉ cần tập trung vào 3 việc.</p>
+
+  <h3>Nếu bạn chưa có job online đầu tiên:</h3>
+  <ul>
+    <li><strong>Việc 1:</strong> Chọn một ngách cụ thể và cam kết với nó trong ít nhất 6 tháng. Không thay đổi giữa chừng khi thấy ngách khác có vẻ hấp dẫn hơn.</li>
+    <li><strong>Việc 2:</strong> Tạo ra 2-3 sản phẩm thật trong ngách đó - dù là dự án tự làm, case study giả lập hay bài tập thực hành. Đây là nền tảng của portfolio.</li>
+    <li><strong>Việc 3:</strong> Apply 5-10 job có chọn lọc với hồ sơ được chỉnh cho từng vị trí - thay vì rải 50 đơn giống nhau. Theo dõi kết quả và điều chỉnh.</li>
+  </ul>
+
+  <h3>Nếu bạn đã có job online nhưng muốn tăng thu nhập:</h3>
+  <ul>
+    <li><strong>Việc 1:</strong> Xác định task nào trong công việc hiện tại AI có thể hỗ trợ và bắt đầu tích hợp. Mục tiêu: tăng output trong cùng thời gian.</li>
+    <li><strong>Việc 2:</strong> Viết lại hồ sơ theo hướng value-based - thêm con số, kết quả cụ thể vào từng bullet point trong CV và portfolio.</li>
+    <li><strong>Việc 3:</strong> Tìm kiếm 3-5 vị trí tốt hơn hiện tại và apply. Người đang có việc luôn negotiate lương tốt hơn người chưa có việc.</li>
+  </ul>
+
+  <h3>Nếu bạn muốn xây dựng lợi thế dài hạn:</h3>
+  <ul>
+    <li><strong>Việc 1:</strong> Cập nhật LinkedIn profile đầy đủ và bắt đầu share kiến thức trong ngách của mình - dù chỉ 1 post mỗi tuần.</li>
+    <li><strong>Việc 2:</strong> Chọn một ngôn ngữ thứ ba và bắt đầu học 15-20 phút mỗi ngày. Tích lũy nhỏ trong 18-24 tháng sẽ tạo ra lợi thế lớn.</li>
+    <li><strong>Việc 3:</strong> Xây một dự án cá nhân kết hợp AI + chuyên môn của mình - để vừa học được kỹ năng mới vừa có thêm portfolio.</li>
+  </ul>
+
+  <div class="section-divider"></div>
+
+  <h2 id="p4-resources">Tài nguyên tham khảo thêm</h2>
+
+  <h3>Tìm job online uy tín</h3>
+  <ul>
+    <li>LinkedIn - job quốc tế và network chuyên nghiệp</li>
+    <li>Upwork, Fiverr - freelance project quốc tế</li>
+    <li>RemoteOK, We Work Remotely - job remote toàn cầu</li>
+    <li>CryptoJobsList, Web3.career - job Blockchain/Web3</li>
+  </ul>
+
+  <h3>Học kỹ năng</h3>
+  <ul>
+    <li>Seller Central (Shopee, TikTok Shop) - tài liệu chính thức, miễn phí</li>
+    <li>Helium 10, Jungle Scout Blog - Amazon/Shopify</li>
+    <li>Google Digital Garage - marketing và kỹ năng số cơ bản, miễn phí có chứng chỉ</li>
+    <li>Anthropic, OpenAI docs - AI tools</li>
+    <li>YouTube - hầu hết kỹ năng thực chiến đều có tutorial miễn phí</li>
+  </ul>
+
+  <h3>Cộng đồng</h3>
+  <ul>
+    <li>Group Job Online - Remote (Tia Nguyen) - chia sẻ job, kinh nghiệm thực chiến</li>
+    <li>LinkedIn communities theo ngách bạn muốn làm</li>
+    <li>Reddit: r/freelance, r/digitalnomad - góc nhìn quốc tế</li>
+  </ul>
+</div>
+
+<!-- CONCLUSION -->
+<div class="conclusion">
+  <h2>Và điều mình muốn nói cuối cùng</h2>
+  <p>2027 sẽ khó hơn 2026. Nhưng khó hơn không có nghĩa là không có cơ hội. Nó chỉ có nghĩa là cơ hội đang đòi hỏi người tìm kiếm nó phải chuẩn bị đúng hướng hơn.</p>
+  <p>Mình viết báo cáo này không phải để cho bạn một bức tranh đẹp hơn thực tế. Mình viết nó để bạn nhìn thấy thị trường như nó thật sự đang là - với cả cơ hội lẫn rủi ro - và từ đó đưa ra quyết định tốt hơn cho hành trình của mình.</p>
+  <div class="conclusion-final">Chúc bạn sớm đạt được thành tựu!</div>
+  <p style="margin-top:12px; font-size:13px;">— Tia Nguyên · tiahere.com</p>
+</div>
+
+</main>
+
+<script>
+// ============================================================
+// CONTENT PROTECTION
+// ============================================================
+
+// 1. Chặn chuột phải
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// 2. Chặn phím tắt: Ctrl/Cmd + C, A, S, P, U (view-source)
+document.addEventListener('keydown', e => {
+  const blocked = ['c','a','s','p','u'];
+  if ((e.ctrlKey || e.metaKey) && blocked.includes(e.key.toLowerCase())) {
+    e.preventDefault();
+    return false;
+  }
+  // Chặn F12 (DevTools)
+  if (e.key === 'F12') e.preventDefault();
+});
+
+// 3. Chặn drag để copy
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// ============================================================
+// WATERMARK — canvas lặp toàn trang
+// ============================================================
+function drawWatermark(text) {
+  const canvas = document.getElementById('watermark-canvas');
+  if (!canvas) return;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.font = '500 14px Inter, sans-serif';
+  ctx.fillStyle = 'rgba(160, 132, 92, 0.07)';
+  ctx.rotate(-30 * Math.PI / 180);
+  const stepX = 280;
+  const stepY = 120;
+  const diag = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+  for (let x = -diag; x < diag * 2; x += stepX) {
+    for (let y = -diag; y < diag * 2; y += stepY) {
+      ctx.fillText(text, x, y);
+    }
+  }
+  ctx.restore();
+}
+
+// Lấy tên user từ URL param ?user=TenNguoiDung (sẽ inject từ App.tsx sau)
+// Fallback: hiện "tiahere.com" nếu không có param
+function getWatermarkText() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const u = params.get('user');
+    if (u) return decodeURIComponent(u) + ' · tiahere.com';
+  } catch (_) {}
+  return 'tiahere.com';
+}
+
+const wmText = getWatermarkText();
+drawWatermark(wmText);
+window.addEventListener('resize', () => drawWatermark(wmText));
+
+// ============================================================
+// PROGRESS BAR
+// ============================================================
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  const prog = (window.scrollY / total) * 100;
+  document.getElementById('progressFill').style.width = prog + '%';
+});
+
+// ============================================================
+// ACTIVE TOC
+// ============================================================
+const sections = document.querySelectorAll('[id]');
+const links = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// ============================================================
+// MOBILE MENU
+// ============================================================
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+document.querySelectorAll('.toc-link').forEach(l => {
+  l.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>

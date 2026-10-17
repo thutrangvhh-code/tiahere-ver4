@@ -1,0 +1,10 @@
+{
+  "description": "Organizes and displays educational content with a clean, color-coded interface enhancing user navigation and learning experience.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

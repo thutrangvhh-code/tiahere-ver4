@@ -1,0 +1,264 @@
+     1	import { useMemo, useState } from "react";
+     2	
+     3	type IconName =
+     4	  | "home"
+     5	  | "book"
+     6	  | "grid"
+     7	  | "heart"
+     8	  | "user"
+     9	  | "search"
+    10	  | "bell"
+    11	  | "sun"
+    12	  | "arrow"
+    13	  | "play"
+    14	  | "clock"
+    15	  | "sparkle"
+    16	  | "menu"
+    17	  | "close";
+    18	
+    19	function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
+    20	  const paths: Record<IconName, React.ReactNode> = {
+    21	    home: <><path d="m3 10 9-7 9 7" /><path d="M5 9v11h14V9M9 20v-6h6v6" /></>,
+    22	    book: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22Z" /></>,
+    23	    grid: <><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></>,
+    24	    heart: <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z" />,
+    25	    user: <><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></>,
+    26	    search: <><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></>,
+    27	    bell: <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" /><path d="M10 21h4" /></>,
+    28	    sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>,
+    29	    arrow: <><path d="M5 12h14M14 7l5 5-5 5" /></>,
+    30	    play: <path d="m9 7 8 5-8 5Z" />,
+    31	    clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
+    32	    sparkle: <><path d="m12 3 1.3 4.2L17 9l-3.7 1.8L12 15l-1.3-4.2L7 9l3.7-1.8Z" /><path d="m5 15 .7 2.3L8 18l-2.3.7L5 21l-.7-2.3L2 18l2.3-.7Z" /></>,
+    33	    menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
+    34	    close: <><path d="m6 6 12 12M18 6 6 18" /></>,
+    35	  };
+    36	  return (
+    37	    <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    38	      {paths[name]}
+    39	    </svg>
+    40	  );
+    41	}
+    42	
+    43	const navItems: { label: string; icon: IconName }[] = [
+    44	  { label: "Trang chủ", icon: "home" },
+    45	  { label: "Thư viện", icon: "book" },
+    46	  { label: "Khóa học", icon: "grid" },
+    47	  { label: "Yêu thích", icon: "heart" },
+    48	  { label: "Hành trình", icon: "user" },
+    49	];
+    50	
+    51	const resources = [
+    52	  {
+    53	    title: "7 ngày trở về với mình",
+    54	    kind: "WORKBOOK",
+    55	    meta: "28 trang",
+    56	    color: "peach",
+    57	    image: "https://images.unsplash.com/photo-1643148636630-0b0fb138fc74?auto=format&fit=crop&w=800&q=85",
+    58	  },
+    59	  {
+    60	    title: "Bộ câu hỏi chữa lành",
+    61	    kind: "JOURNAL",
+    62	    meta: "45 câu hỏi",
+    63	    color: "blush",
+    64	    image: "https://images.unsplash.com/photo-1706425463104-d382963db933?auto=format&fit=crop&w=800&q=85",
+    65	  },
+    66	  {
+    67	    title: "Thiền cho ngày dịu lại",
+    68	    kind: "AUDIO",
+    69	    meta: "12 phút",
+    70	    color: "sage",
+    71	    image: "https://images.unsplash.com/photo-1470049384172-927891aad5e9?auto=format&fit=crop&w=800&q=85",
+    72	  },
+    73	];
+    74	
+    75	export default function App() {
+    76	  const [activeNav, setActiveNav] = useState("Trang chủ");
+    77	  const [category, setCategory] = useState("Tất cả");
+    78	  const [query, setQuery] = useState("");
+    79	  const [liked, setLiked] = useState<string[]>([]);
+    80	  const [mobileOpen, setMobileOpen] = useState(false);
+    81	
+    82	  const visibleResources = useMemo(
+    83	    () => resources.filter((item) => item.title.toLowerCase().includes(query.toLowerCase())),
+    84	    [query],
+    85	  );
+    86	
+    87	  const toggleLike = (title: string) => {
+    88	    setLiked((current) => current.includes(title) ? current.filter((item) => item !== title) : [...current, title]);
+    89	  };
+    90	
+    91	  return (
+    92	    <main className="app-shell">
+    93	      <button className="mobile-menu" aria-label="Mở menu" onClick={() => setMobileOpen(true)}>
+    94	        <Icon name="menu" />
+    95	      </button>
+    96	
+    97	      <aside className={`sidebar ${mobileOpen ? "is-open" : ""}`}>
+    98	        <button className="sidebar-close" aria-label="Đóng menu" onClick={() => setMobileOpen(false)}>
+    99	          <Icon name="close" />
+   100	        </button>
+   101	        <div className="brand">
+   102	          <div className="brand-mark"><span>t</span></div>
+   103	          <div>
+   104	            <div className="brand-name">tiahere</div>
+   105	            <div className="brand-tagline">A soft place to grow</div>
+   106	          </div>
+   107	        </div>
+   108	
+   109	        <nav className="nav-list" aria-label="Điều hướng chính">
+   110	          {navItems.map((item) => (
+   111	            <button
+   112	              key={item.label}
+   113	              className={`nav-item ${activeNav === item.label ? "active" : ""}`}
+   114	              onClick={() => {
+   115	                setActiveNav(item.label);
+   116	                setMobileOpen(false);
+   117	              }}
+   118	            >
+   119	              <Icon name={item.icon} size={19} />
+   120	              <span>{item.label}</span>
+   121	            </button>
+   122	          ))}
+   123	        </nav>
+   124	
+   125	        <div className="sidebar-note">
+   126	          <div className="note-kicker">LỜI NHẮN HÔM NAY</div>
+   127	          <div className="note-title">Bạn không cần phải vội.</div>
+   128	          <p>Mọi điều đẹp đẽ đều cần thời gian để nở hoa.</p>
+   129	          <div className="note-flower">✦</div>
+   130	        </div>
+   131	
+   132	        <div className="sidebar-footer">
+   133	          <div className="avatar">TH</div>
+   134	          <div>
+   135	            <strong>Tia Here</strong>
+   136	            <span>Thành viên dịu dàng</span>
+   137	          </div>
+   138	          <Icon name="arrow" size={17} />
+   139	        </div>
+   140	      </aside>
+   141	      {mobileOpen && <button className="sidebar-backdrop" aria-label="Đóng menu" onClick={() => setMobileOpen(false)} />}
+   142	
+   143	      <section className="main-content">
+   144	        <header className="topbar">
+   145	          <div className="date-block">
+   146	            <strong>12</strong>
+   147	            <span>THÁNG 4<br /><small>Thứ bảy</small></span>
+   148	          </div>
+   149	          <label className="search-box">
+   150	            <Icon name="search" size={18} />
+   151	            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Tìm tài liệu, khóa học, bài viết..." />
+   152	          </label>
+   153	          <div className="top-actions">
+   154	            <button aria-label="Chuyển giao diện"><Icon name="sun" /></button>
+   155	            <button className="notification" aria-label="Thông báo"><Icon name="bell" /><i /></button>
+   156	            <div className="mini-avatar">TH</div>
+   157	          </div>
+   158	        </header>
+   159	
+   160	        <div className="content-intro">
+   161	          <div>
+   162	            <span className="eyebrow">CHÀO BUỔI SÁNG, TIA</span>
+   163	            <h1>Hôm nay, mình muốn<br /><em>dịu dàng</em> với điều gì?</h1>
+   164	          </div>
+   165	          <p>Một góc nhỏ để bạn chậm lại, lắng nghe<br />và trở về với chính mình.</p>
+   166	        </div>
+   167	
+   168	        <div className="filter-row">
+   169	          {["Tất cả", "Chữa lành", "Phát triển", "Sống chậm", "Tự yêu"].map((item) => (
+   170	            <button key={item} className={category === item ? "selected" : ""} onClick={() => setCategory(item)}>{item}</button>
+   171	          ))}
+   172	        </div>
+   173	
+   174	        <section className="dashboard-grid">
+   175	          <article className="hero-card">
+   176	            <img src="https://images.unsplash.com/photo-1607557997149-96bf2b30c3c3?auto=format&fit=crop&w=1200&q=85" alt="Người phụ nữ đọc sách trong không gian ấm áp" />
+   177	            <div className="hero-overlay" />
+   178	            <div className="hero-copy">
+   179	              <span className="card-kicker">CHỦ ĐỀ THÁNG 4</span>
+   180	              <h2>Cho mình một<br />khoảng thở</h2>
+   181	              <p>Bạn không cần luôn mạnh mẽ.<br />Hôm nay, hãy cho phép mình được nghỉ ngơi.</p>
+   182	              <button className="primary-button">Khám phá ngay <Icon name="arrow" size={17} /></button>
+   183	            </div>
+   184	          </article>
+   185	
+   186	          <article className="ritual-card">
+   187	            <div className="ritual-top">
+   188	              <span className="icon-bubble"><Icon name="sparkle" /></span>
+   189	              <span className="card-kicker">NGHI THỨC MỖI NGÀY</span>
+   190	            </div>
+   191	            <h3>3 phút lắng nghe mình</h3>
+   192	            <p>Chọn một cảm xúc gần nhất với bạn lúc này.</p>
+   193	            <div className="moods">
+   194	              {["Bình yên", "Mệt mỏi", "Chông chênh", "Biết ơn"].map((mood, index) => (
+   195	                <button key={mood} className={index === 0 ? "active" : ""}><i>{["◡", "–", "∿", "♡"][index]}</i>{mood}</button>
+   196	              ))}
+   197	            </div>
+   198	            <button className="text-button">Bắt đầu check-in <Icon name="arrow" size={16} /></button>
+   199	          </article>
+   200	
+   201	          <article className="quote-card">
+   202	            <span className="quote-mark">“</span>
+   203	            <p>Cứ đi chậm thôi,<br />miễn là bạn vẫn đang<br /><em>đi về phía mình.</em></p>
+   204	            <span className="quote-sign">— tiahere</span>
+   205	          </article>
+   206	
+   207	          <article className="continue-card">
+   208	            <div className="section-heading">
+   209	              <div><span className="card-kicker">HỌC TIẾP</span><h3>Hành trình đang mở</h3></div>
+   210	              <button aria-label="Mở khóa học"><Icon name="arrow" /></button>
+   211	            </div>
+   212	            <div className="course-info">
+   213	              <div className="course-thumb">
+   214	                <img src="https://images.unsplash.com/photo-1706425463548-71f00551389d?auto=format&fit=crop&w=500&q=85" alt="Viết nhật ký bên tách cà phê" />
+   215	                <span><Icon name="play" size={18} /></span>
+   216	              </div>
+   217	              <div>
+   218	                <span className="tiny-label">BÀI 04 · 8 PHÚT</span>
+   219	                <h4>Nghệ thuật ở một mình</h4>
+   220	                <div className="progress"><i /></div>
+   221	                <small>Đã hoàn thành 68%</small>
+   222	              </div>
+   223	            </div>
+   224	          </article>
+   225	
+   226	          <article className="event-card">
+   227	            <div>
+   228	              <span className="card-kicker">CIRCLE TALK · TRỰC TUYẾN</span>
+   229	              <h3>Yêu mình không<br />cần điều kiện</h3>
+   230	              <div className="event-meta"><Icon name="clock" size={16} /> 20:00 · 18 tháng 4</div>
+   231	              <button className="light-button">Giữ chỗ cho mình</button>
+   232	            </div>
+   233	            <div className="event-orbit"><span>18<small>APR</small></span></div>
+   234	          </article>
+   235	        </section>
+   236	
+   237	        <section className="resource-section">
+   238	          <div className="section-title-row">
+   239	            <div><span className="eyebrow">DÀNH CHO BẠN</span><h2>Một chút dịu dàng mang theo</h2></div>
+   240	            <button>Xem tất cả <Icon name="arrow" size={17} /></button>
+   241	          </div>
+   242	          <div className="resource-grid">
+   243	            {visibleResources.map((item) => (
+   244	              <article className={`resource-card ${item.color}`} key={item.title}>
+   245	                <div className="resource-image">
+   246	                  <img src={item.image} alt="" />
+   247	                  <button className={liked.includes(item.title) ? "liked" : ""} aria-label={`Yêu thích ${item.title}`} onClick={() => toggleLike(item.title)}>
+   248	                    <Icon name="heart" size={17} />
+   249	                  </button>
+   250	                </div>
+   251	                <div className="resource-copy">
+   252	                  <span>{item.kind}</span>
+   253	                  <h3>{item.title}</h3>
+   254	                  <p>{item.meta} · Dành cho bạn</p>
+   255	                </div>
+   256	              </article>
+   257	            ))}
+   258	          </div>
+   259	          {visibleResources.length === 0 && <div className="empty-state">Chưa tìm thấy nội dung phù hợp. Thử một từ khóa khác nhé.</div>}
+   260	        </section>
+   261	      </section>
+   262	    </main>
+   263	  );
+   264	}
