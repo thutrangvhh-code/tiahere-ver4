@@ -1,7 +1,7 @@
 import { createContext, lazy, Suspense, useContext, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, getDoc, addDoc, updateDoc, increment, arrayUnion, arrayRemove, collection, getDocs, query as fsQuery, where, orderBy, limit, writeBatch } from "firebase/firestore";
+import { doc, setDoc, getDoc, addDoc, updateDoc, increment, arrayUnion, arrayRemove, collection, getDocs, query as fsQuery, where, orderBy, limit, writeBatch, onSnapshot } from "firebase/firestore";
 import { auth, db, googleProvider } from "./firebase";
 
 // ── Email System ──────────────────────────────────────────────
@@ -2089,6 +2089,7 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [purchaseStep, setPurchaseStep] = useState<PurchaseStep>(null);
   const [ownedProductIds, setOwnedProductIds] = useState<string[]>([]);
+  const [authUid, setAuthUid] = useState("");
   const [myOrders, setMyOrders] = useState<OrderRecord[]>([]);
   const [myBookings, setMyBookings] = useState<BookingRecord[]>([]);
   const [lastOrderCode, setLastOrderCode] = useState("");
@@ -2220,6 +2221,7 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setAuthUid(firebaseUser ? firebaseUser.uid : "");
       if (firebaseUser) {
         const snap = await getDoc(doc(db, "users", firebaseUser.uid));
         // Đơn hàng và lịch call của chính user (không chặn việc hiển thị trang)
@@ -2257,6 +2259,24 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  // Tự cập nhật khi admin xác nhận đơn / lịch: quyền sở hữu, đơn hàng, lịch call thay đổi là trang đổi ngay, không cần tải lại
+  useEffect(() => {
+    if (!authUid) return;
+    const unsubs = [
+      onSnapshot(doc(db, "users", authUid), (snap) => {
+        const data = snap.data();
+        if (data && Array.isArray(data.ownedProducts)) setOwnedProductIds(data.ownedProducts);
+      }, () => {}),
+      onSnapshot(fsQuery(collection(db, "orders"), where("uid", "==", authUid)), (result) => {
+        setMyOrders(result.docs.map((d) => d.data() as OrderRecord).sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+      }, () => {}),
+      onSnapshot(fsQuery(collection(db, "bookings"), where("uid", "==", authUid)), (result) => {
+        setMyBookings(result.docs.map((d) => ({ ...(d.data() as BookingRecord), id: d.id })).sort((a, b) => b.date.localeCompare(a.date)));
+      }, () => {}),
+    ];
+    return () => unsubs.forEach((u) => u());
+  }, [authUid]);
+
   // Sản phẩm miễn phí: tới bước thanh toán thì mở quyền ngay, không cần chờ admin xác nhận
   useEffect(() => {
     if (purchaseStep !== "checkout" || !selectedProduct || !user || !isFreeProduct(selectedProduct) || claiming) return;
@@ -2277,7 +2297,7 @@ export default function App() {
     batch.commit()
       .then(() => {
         setOwnedProductIds((ids) => [...ids, product.id]);
-        setMyOrders((items) => [{ code, productId: product.id, productTitle: product.title, priceLabel: "Miễn phí", amount: 0, status: "Đã xác nhận", createdAt: now }, ...items]);
+        setMyOrders((items) => [{ code, productId: product.id, productTitle: product.title, priceLabel: "Miễn phí", amount: 0, status: "Đã xác nhận", createdAt: now }, ...items.filter((i) => i.code !== code)]);
         setAllProducts((items) => items.map((x) => x.id === product.id ? { ...x, buyers: (x.buyers || 0) + 1 } : x));
         setSelectedProduct({ ...product, verified: true, buyers: (product.buyers || 0) + 1 });
         setPurchaseStep(null);
@@ -2671,7 +2691,7 @@ export default function App() {
         ) : purchaseStep === "checkout" && selectedProduct && user ? (
           <CheckoutPage product={selectedProduct} user={user} extra={needsRegistration(selectedProduct) ? regAnswers : null} onBack={() => setPurchaseStep(needsRegistration(selectedProduct) ? "register" : null)} onComplete={(order) => {
             sendEmail({ type: "order_pending", email: user.email, name: user.name, productName: `${selectedProduct.title} (mã đơn ${order.code})` });
-            setMyOrders((items) => [order, ...items]);
+            setMyOrders((items) => [order, ...items.filter((i) => i.code !== order.code)]);
             setLastOrderCode(order.code);
             setPurchaseStep("pending");
           }} />
@@ -2733,7 +2753,7 @@ export default function App() {
         ) : activeNav === "Đặt lịch miễn phí" && user ? (
           <FreeBookingPage
             user={user}
-            onBooked={(booking) => setMyBookings((items) => [booking, ...items])}
+            onBooked={(booking) => setMyBookings((items) => [booking, ...items.filter((i) => i.id !== booking.id)])}
             onBack={() => setActiveNav("Đồng hành 1:1")}
             onComplete={() => {
               setProfileTab("meetings");
