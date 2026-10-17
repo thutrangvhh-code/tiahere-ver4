@@ -332,6 +332,12 @@ const EXTRA_CSS = `
 .showcase-hero-copy,.deal-copy{max-width:50%;}
 .showcase-hero-copy h2,.showcase-hero-copy p,.deal-copy h2,.deal-copy p{overflow-wrap:break-word;}
 @media (max-width:760px){.showcase-hero-copy,.deal-copy{max-width:100%;}}
+/* Mobile: mọi card sản phẩm ở Khám phá có khung ảnh cùng tỉ lệ 16:9, không phụ thuộc kích thước ảnh gốc */
+@media (max-width:760px){
+  .showcase-grid .showcase-product{min-height:0 !important;}
+  .showcase-grid .showcase-product .product-media{flex:none !important;aspect-ratio:16/9;height:auto !important;min-height:0 !important;}
+  .showcase-grid .showcase-product .product-media img{position:absolute;inset:0;width:100%;height:100% !important;object-fit:cover;}
+}
 /* Trang chi tiết: khung ảnh cố định tỉ lệ 4:5, không kéo dài theo nội dung */
 .product-detail-page .detail-image{aspect-ratio:4/5;height:auto !important;min-height:0 !important;align-self:start;overflow:hidden;}
 .product-detail-page .detail-image img{width:100%;height:100%;object-fit:cover;}
@@ -682,7 +688,7 @@ function ArticleDetailPage({ article, articles, onBack, onSelect }: { article: A
     try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, "1"); } catch { /* trình duyệt chặn lưu tạm */ }
     updateDoc(doc(db, "articles", article.id), { views: increment(1) }).catch(() => { /* bỏ qua nếu không ghi được */ });
   }, [article.id]);
-  const shareUrl = `${window.location.origin}${window.location.pathname}#article=${article.id}`;
+  const shareUrl = articleLink(article.id);
   const encodedUrl = encodeURIComponent(shareUrl);
 
   const shareArticle = (network: "facebook" | "linkedin") => {
@@ -1650,7 +1656,30 @@ const NAV_HASH: Record<string, string> = {
 };
 const HASH_NAV: Record<string, string> = Object.fromEntries(Object.entries(NAV_HASH).map(([k, v]) => [v, k]));
 const currentHash = () => { try { return decodeURIComponent(window.location.hash); } catch { return window.location.hash; } };
-const productLink = (id: string) => `${window.location.origin}${window.location.pathname}#san-pham=${id}`;
+// ── Link chia sẻ mạng xã hội ──────────────────────────────────
+// Trên tiahere.com: link dạng tiahere.com/p/ten-san-pham và tiahere.com/bai-viet/ten-bai-viet.
+// Các trang này được tạo sẵn lúc build (scripts/share-pages.mjs) nên Facebook/Zalo đọc được ảnh, tên, mô tả.
+// Cách đặt tên link ở đây phải giống hệt trong scripts/share-pages.mjs.
+function shareSlugify(text: string): string {
+  const base = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "d")
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60).replace(/-+$/g, "");
+  return base || "trang";
+}
+function buildShareSlugs(items: { id: string; title: string }[]): Record<string, string> {
+  const count: Record<string, number> = {};
+  items.forEach((item) => { const b = shareSlugify(item.title); count[b] = (count[b] || 0) + 1; });
+  const out: Record<string, string> = {};
+  items.forEach((item) => { const b = shareSlugify(item.title); out[item.id] = count[b] > 1 ? `${b}-${item.id.slice(0, 5).toLowerCase()}` : b; });
+  return out;
+}
+const SHARE_SLUGS = { products: {} as Record<string, string>, articles: {} as Record<string, string> };
+const onLiveSite = () => /(^|\.)tiahere\.com$/.test(window.location.hostname);
+const productLink = (id: string) => onLiveSite() && SHARE_SLUGS.products[id]
+  ? `https://tiahere.com/p/${SHARE_SLUGS.products[id]}`
+  : `${window.location.origin}${window.location.pathname}#san-pham=${id}`;
+const articleLink = (id: string) => onLiveSite() && SHARE_SLUGS.articles[id]
+  ? `https://tiahere.com/bai-viet/${SHARE_SLUGS.articles[id]}`
+  : `${window.location.origin}${window.location.pathname}#article=${id}`;
 
 // ── Điều khoản sử dụng & Chính sách bảo mật (nội dung do admin soạn trong Admin) ──
 const LEGAL_PAGES = {
@@ -2134,6 +2163,7 @@ export default function App() {
           })
           .filter((article) => !article.publishedAt || article.publishedAt <= today)
           .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+        SHARE_SLUGS.articles = buildShareSlugs(list);
         setArticles(list);
       })
       .catch(() => { /* chưa có bài viết hoặc Rules chặn — giữ danh sách rỗng */ });
@@ -2203,6 +2233,7 @@ export default function App() {
             } as Product;
           })
           .filter(Boolean) as Product[];
+        SHARE_SLUGS.products = buildShareSlugs(loaded);
         setAllProducts(loaded);
       })
       .catch(() => { /* Firestore chưa có data — giữ array rỗng */ });
@@ -2352,6 +2383,17 @@ export default function App() {
   useEffect(() => {
     const h = currentHash();
     if (appliedHash.current === h || h.startsWith("#admin") || legalFromHash(h)) return;
+    // Link chia sẻ mới chưa kịp tạo trang riêng: 404.html chuyển về #p=ten-san-pham / #bv=ten-bai-viet → đổi sang link thường
+    const slugHit = h.match(/^#(p|bv)=(.+)$/);
+    if (slugHit) {
+      const isProduct = slugHit[1] === "p";
+      const map = isProduct ? SHARE_SLUGS.products : SHARE_SLUGS.articles;
+      const id = Object.keys(map).find((key) => map[key] === slugHit[2]);
+      if (!id && !(isProduct ? allProducts.length : articles.length)) return; // chờ tải xong danh sách
+      window.history.replaceState(null, "", id ? (isProduct ? `#san-pham=${id}` : `#article=${id}`) : window.location.pathname);
+      setHashTick((t) => t + 1);
+      return;
+    }
     const clearOverlays = () => { setReaderProduct(null); setToolProduct(null); setParticipantProduct(null); setPurchaseStep(null); setMobileOpen(false); };
     const prod = h.match(/^#san-pham=(.+)$/);
     const art = h.match(/^#article=(.+)$/);

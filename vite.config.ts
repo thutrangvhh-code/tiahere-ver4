@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       serveStaticHtml(),
       react(),
       tailwindcss(),
-      figmaSiteConfiguration(siteConfiguration),
+      //figmaSiteConfiguration(siteConfiguration),
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),

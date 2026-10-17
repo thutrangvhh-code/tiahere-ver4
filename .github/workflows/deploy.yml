@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch: # cho phép bấm chạy tay trong tab Actions
+  schedule:
+    # Tự build lại mỗi ngày 2 lần (7:00 và 19:00 giờ Việt Nam) để cập nhật link chia sẻ sản phẩm/bài viết mới
+    - cron: "0 0,12 * * *"
 
 permissions:
   contents: read
@@ -27,6 +30,9 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Tạo trang chia sẻ mạng xã hội (tiahere.com/p/... và /bai-viet/...)
+        run: node scripts/share-pages.mjs
+        continue-on-error: true
       - name: Giữ tên miền tiahere.com
         run: echo "tiahere.com" > dist/CNAME
       - uses: actions/upload-pages-artifact@v3
