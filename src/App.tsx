@@ -332,6 +332,14 @@ const EXTRA_CSS = `
 .showcase-hero-copy,.deal-copy{max-width:50%;}
 .showcase-hero-copy h2,.showcase-hero-copy p,.deal-copy h2,.deal-copy p{overflow-wrap:break-word;}
 @media (max-width:760px){.showcase-hero-copy,.deal-copy{max-width:100%;}}
+/* Link Điều khoản / Chính sách ở màn hình đăng nhập */
+.auth-terms a{color:#a3605d;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+.auth-terms a:hover{color:#7e4542;text-decoration-thickness:2px;}
+/* Trang Điều khoản / Chính sách */
+.legal-page h3{margin:26px 0 10px;}
+.legal-page h4{margin:20px 0 8px;}
+.legal-page ul,.legal-page ol{padding-left:22px;margin:8px 0 14px;}
+.legal-page li{margin:6px 0;line-height:1.6;}
 /* Mobile: mọi card sản phẩm ở Khám phá có khung ảnh cùng tỉ lệ 16:9, không phụ thuộc kích thước ảnh gốc */
 @media (max-width:760px){
   .showcase-grid .showcase-product{min-height:0 !important;}
@@ -1551,7 +1559,7 @@ function AuthPage({ product, onBack, onAuthenticated }: { product?: Product; onB
             {mode === "register" && <p style={{ margin: "0 0 10px" }}><LegalLinks prefix="Bằng việc tạo tài khoản, bạn đồng ý với " /></p>}
             <button className="auth-submit" type="submit" disabled={authLoading}>{authLoading ? "Đang xử lý..." : mode === "login" ? "Đăng nhập & tiếp tục" : "Tạo tài khoản & tiếp tục"}<Icon name="arrow" size={17} /></button>
           </form>
-          <p className="auth-terms">Bằng việc tiếp tục, bạn đồng ý với Điều khoản sử dụng và Chính sách bảo mật của tiahere.</p>
+          <p className="auth-terms">Bằng việc tiếp tục, bạn đồng ý với <a href={LEGAL_PAGES.terms.hash}>Điều khoản sử dụng</a> và <a href={LEGAL_PAGES.privacy.hash}>Chính sách bảo mật</a> của tiahere.</p>
         </section>
       </div>
     </div>
@@ -1692,18 +1700,43 @@ function LegalLinks({ prefix }: { prefix?: string }) {
   return <small className="legal-links">{prefix}<a href={LEGAL_PAGES.terms.hash}>Điều khoản sử dụng</a> và <a href={LEGAL_PAGES.privacy.hash}>Chính sách bảo mật</a>{prefix ? "." : ""}</small>;
 }
 // Định dạng đơn giản: dòng bắt đầu "# " là tiêu đề lớn, "## " tiêu đề nhỏ, "- " là gạch đầu dòng
+// Chữ in đậm **...** trong một dòng
+function inlineBold(text: string): ReactNode[] {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
+}
+// Hiển thị nội dung Điều khoản / Chính sách: # ## ### tiêu đề · dòng in đậm cả dòng = tiêu đề mục ·
+// "- " hoặc "* " gạch đầu dòng · "1. " danh sách đánh số · **chữ** in đậm
 function SimpleText({ text }: { text: string }) {
   const blocks: ReactNode[] = [];
-  let list: string[] = [];
-  const flush = () => { if (list.length) { blocks.push(<ul key={`u${blocks.length}`}>{list.map((t, i) => <li key={i}>{t}</li>)}</ul>); list = []; } };
+  let list: { kind: "ul" | "ol"; start: number; items: string[] } | null = null;
+  const flush = () => {
+    if (!list) return;
+    const items = list.items.map((t, i) => <li key={i}>{inlineBold(t)}</li>);
+    blocks.push(list.kind === "ul" ? <ul key={`l${blocks.length}`}>{items}</ul> : <ol key={`l${blocks.length}`} start={list.start}>{items}</ol>);
+    list = null;
+  };
   text.split(/\r?\n/).forEach((raw) => {
     const line = raw.trim();
-    if (line.startsWith("- ")) { list.push(line.slice(2)); return; }
+    const bullet = line.match(/^[-*•]\s+(.*)$/);
+    const numbered = line.match(/^(\d+)[.)]\s+(.*)$/);
+    if (bullet && !/^\*\*/.test(line)) {
+      if (!list || list.kind !== "ul") { flush(); list = { kind: "ul", start: 1, items: [] }; }
+      list.items.push(bullet[1]);
+      return;
+    }
+    if (numbered) {
+      if (!list || list.kind !== "ol") { flush(); list = { kind: "ol", start: Number(numbered[1]) || 1, items: [] }; }
+      list.items.push(numbered[2]);
+      return;
+    }
     flush();
     if (!line) return;
-    if (line.startsWith("## ")) blocks.push(<h3 key={blocks.length}>{line.slice(3)}</h3>);
-    else if (line.startsWith("# ")) blocks.push(<h2 key={blocks.length}>{line.slice(2)}</h2>);
-    else blocks.push(<p key={blocks.length}>{line}</p>);
+    const wholeBold = line.match(/^\*\*([^*]+)\*\*:?$/);
+    if (line.startsWith("### ")) blocks.push(<h4 key={blocks.length}>{inlineBold(line.slice(4))}</h4>);
+    else if (line.startsWith("## ")) blocks.push(<h3 key={blocks.length}>{inlineBold(line.slice(3))}</h3>);
+    else if (line.startsWith("# ")) blocks.push(<h2 key={blocks.length}>{inlineBold(line.slice(2))}</h2>);
+    else if (wholeBold) blocks.push(<h3 key={blocks.length}>{wholeBold[1]}</h3>);
+    else blocks.push(<p key={blocks.length}>{inlineBold(line)}</p>);
   });
   flush();
   return <>{blocks}</>;
@@ -2433,6 +2466,12 @@ export default function App() {
     window.history.pushState(null, "", want || window.location.pathname + window.location.search);
     appliedHash.current = want;
   }, [activeNav, selectedProduct?.id, selectedArticle?.id, adminMode, legalPage]);
+  // Đang ở trang Điều khoản / Chính sách mà bấm menu, đăng nhập, tìm kiếm… → thoát trang pháp lý, link trên thanh địa chỉ đổi theo
+  const leaveLegal = () => {
+    if (!legalPage) return;
+    appliedHash.current = currentHash();
+    setLegalPage(null);
+  };
 
   if (authLoading) {
     return <div className="admin-loading">Đang tải...</div>;
@@ -2531,6 +2570,7 @@ export default function App() {
   const openNotification = (item: SiteNotification) => {
     setNotificationOpen(false);
     if (!item.link) return;
+    if (item.link.startsWith("#") && legalPage) { leaveLegal(); appliedHash.current = null; }
     if (item.link.startsWith("#")) window.location.hash = item.link;
     else window.open(item.link, "_blank", "noopener,noreferrer");
   };
@@ -2561,6 +2601,7 @@ export default function App() {
               key={item.label}
               className={`nav-item ${activeNav === item.label ? "active" : ""}`}
               onClick={() => {
+                leaveLegal();
                 setActiveNav(item.label);
                 setSelectedProduct(null);
                 setReaderProduct(null);
@@ -2579,7 +2620,7 @@ export default function App() {
           {isAdminUser && (
             <button
               className={`nav-item ${adminMode ? "active" : ""}`}
-              onClick={() => { setAdminMode(true); setMobileOpen(false); }}
+              onClick={() => { leaveLegal(); setAdminMode(true); setMobileOpen(false); }}
             >
               <Icon name="grid" size={19} />
               <span>Admin Panel</span>
@@ -2591,6 +2632,7 @@ export default function App() {
           <button
             className="sidebar-footer member-button"
             onClick={() => {
+              leaveLegal();
               setProfileTab("products");
               setActiveNav("Trang cá nhân");
               setSelectedProduct(null);
@@ -2609,7 +2651,7 @@ export default function App() {
             <Icon name="arrow" size={17} />
           </button>
         ) : (
-          <button className="sidebar-footer sidebar-login" onClick={() => { setAuthDestination(null); setPurchaseStep("auth"); }}>
+          <button className="sidebar-footer sidebar-login" onClick={() => { leaveLegal(); setAuthDestination(null); setPurchaseStep("auth"); }}>
             <span className="avatar"><Icon name="user" size={17} /></span>
             <span className="sidebar-login-copy">
               <strong>Đăng nhập / Đăng ký</strong>
@@ -2630,7 +2672,7 @@ export default function App() {
           </div>
           <label className="search-box">
             <Icon name="search" size={18} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Tìm tài liệu, khóa học, bài viết..." />
+            <input value={query} onChange={(event) => { leaveLegal(); setQuery(event.target.value); }} placeholder="Tìm tài liệu, khóa học, bài viết..." />
           </label>
           <div className="top-actions">
             <div className="site-notification-wrap">
@@ -2658,6 +2700,7 @@ export default function App() {
               <button
                 className="mini-avatar"
                 onClick={() => {
+                  leaveLegal();
                   setProfileTab("products");
                   setActiveNav("Trang cá nhân");
                   setSelectedProduct(null);
@@ -2672,7 +2715,7 @@ export default function App() {
                 {user.name.slice(0, 2).toUpperCase()}
               </button>
             ) : (
-              <button className="top-login-button" onClick={() => { setAuthDestination(null); setPurchaseStep("auth"); }}>Đăng nhập / Đăng ký</button>
+              <button className="top-login-button" onClick={() => { leaveLegal(); setAuthDestination(null); setPurchaseStep("auth"); }}>Đăng nhập / Đăng ký</button>
             )}
           </div>
         </header>
