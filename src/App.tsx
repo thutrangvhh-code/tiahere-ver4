@@ -332,6 +332,11 @@ const EXTRA_CSS = `
 .showcase-hero-copy,.deal-copy{max-width:50%;}
 .showcase-hero-copy h2,.showcase-hero-copy p,.deal-copy h2,.deal-copy p{overflow-wrap:break-word;}
 @media (max-width:760px){.showcase-hero-copy,.deal-copy{max-width:100%;}}
+/* Đang kiểm tra đăng nhập: ô mờ thay cho nút, tránh nháy sai */
+.auth-checking{opacity:.45;pointer-events:none;}
+.sidebar-footer.auth-checking .avatar{background:#e9dcd3;}
+.mini-avatar.auth-checking{background:#e9dcd3;color:transparent;}
+.detail-purchase .purchase-checking{min-width:180px;min-height:48px;opacity:.35;cursor:default;}
 /* Link Điều khoản / Chính sách ở màn hình đăng nhập */
 .auth-terms a{color:#a3605d;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
 .auth-terms a:hover{color:#7e4542;text-decoration-thickness:2px;}
@@ -1216,7 +1221,7 @@ function EbookReaderPage({ product, user, onBack }: { product: Product; user: Us
   );
 }
 
-function ProductDetailPage({ product, pendingOrder, claiming = false, comboProducts = [], ownedIds = [], onOpenProduct, onBack, onPurchase, onAccess }: { product: Product; pendingOrder?: OrderRecord; claiming?: boolean; comboProducts?: Product[]; ownedIds?: string[]; onOpenProduct?: (product: Product) => void; onBack: () => void; onPurchase: () => void; onAccess: () => void }) {
+function ProductDetailPage({ product, pendingOrder, claiming = false, checking = false, comboProducts = [], ownedIds = [], onOpenProduct, onBack, onPurchase, onAccess }: { product: Product; pendingOrder?: OrderRecord; claiming?: boolean; checking?: boolean; comboProducts?: Product[]; ownedIds?: string[]; onOpenProduct?: (product: Product) => void; onBack: () => void; onPurchase: () => void; onAccess: () => void }) {
   const copy = copyFor(product);
   const past = isPastEvent(product);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -1251,7 +1256,9 @@ function ProductDetailPage({ product, pendingOrder, claiming = false, comboProdu
           </div>
           <div className="detail-purchase">
             <div><small>GIÁ SẢN PHẨM</small><PriceTag product={product} /></div>
-            {!product.verified && pendingOrder
+            {checking
+              ? <button disabled className="purchase-checking" aria-label="Đang kiểm tra" />
+              : !product.verified && pendingOrder
               ? <button disabled>Đang chờ xác nhận</button>
               : !product.verified && past
               ? <button disabled>Sự kiện đã diễn ra</button>
@@ -1761,7 +1768,7 @@ function LegalPage({ page, onBack }: { page: LegalKey; onBack: () => void }) {
         {data?.updatedAt && <p>Cập nhật lần cuối: {formatDateVN(data.updatedAt.slice(0, 10))}</p>}
       </header>
       <section className="detail-content-text legal-text">
-        {!data ? <p style={{ opacity: 0.7 }}>Đang tải...</p> : data.text ? <SimpleText text={data.text} /> : <p style={{ opacity: 0.7 }}>Nội dung đang được cập nhật.</p>}
+        {!data ? null : data.text ? <SimpleText text={data.text} /> : <p style={{ opacity: 0.7 }}>Nội dung đang được cập nhật.</p>}
       </section>
       <p style={{ marginTop: 16 }}><a href={page === "terms" ? LEGAL_PAGES.privacy.hash : LEGAL_PAGES.terms.hash}>Xem {page === "terms" ? "Chính sách bảo mật" : "Điều khoản sử dụng"} →</a></p>
     </div>
@@ -2473,8 +2480,9 @@ export default function App() {
     setLegalPage(null);
   };
 
-  if (authLoading) {
-    return <div className="admin-loading">Đang tải...</div>;
+  // Không chặn cả trang khi đang kiểm tra đăng nhập: giao diện hiện ngay, chỉ trang quản trị chờ (màn hình trống, không chữ)
+  if (authLoading && adminMode) {
+    return <div className="admin-loading" />;
   }
 
   // Quyền admin xét theo email của tài khoản đăng nhập (không theo hồ sơ, vì hồ sơ user tự sửa được)
@@ -2490,7 +2498,7 @@ export default function App() {
     );
   }
 
-  if (adminMode && !isAdminUser) {
+  if (adminMode && !isAdminUser && !authLoading) {
     window.location.hash = "";
     setAdminMode(false);
   }
@@ -2628,7 +2636,9 @@ export default function App() {
           )}
         </nav>
 
-        {user ? (
+        {authLoading ? (
+          <div className="sidebar-footer auth-checking" aria-hidden="true"><span className="avatar" /></div>
+        ) : user ? (
           <button
             className="sidebar-footer member-button"
             onClick={() => {
@@ -2696,7 +2706,9 @@ export default function App() {
                 </div>
               )}
             </div>
-            {user ? (
+            {authLoading ? (
+              <span className="mini-avatar auth-checking" aria-hidden="true" />
+            ) : user ? (
               <button
                 className="mini-avatar"
                 onClick={() => {
@@ -2813,6 +2825,7 @@ export default function App() {
             pendingOrder={user ? myOrders.find((order) => order.productId === selectedProduct.id && order.status === "Chờ xác nhận") : undefined}
             onBack={() => setSelectedProduct(null)}
             claiming={claiming}
+            checking={authLoading}
             onPurchase={beginPurchase}
             onAccess={() => accessProduct(selectedProduct)}
           />
