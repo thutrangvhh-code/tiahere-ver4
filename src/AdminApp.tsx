@@ -1706,6 +1706,7 @@ function GrantAccessPage({ products, onBack }: { products: (typeof initialProduc
   const [productId, setProductId] = useState("");
   const [source, setSource] = useState("Admin cấp");
   const [note, setNote] = useState("");
+  const [sendMail, setSendMail] = useState(true);
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
@@ -1725,16 +1726,30 @@ function GrantAccessPage({ products, onBack }: { products: (typeof initialProduc
       const userDoc = fallback.docs[0];
       const product = products.find((item) => item.id === productId);
       const code = adminCode("ADM");
+      // Combo: mở quyền cả combo và tất cả sản phẩm bên trong (giống khi xác nhận đơn)
+      const productSnap = await getDoc(doc(db, "products", productId));
+      const comboItems: string[] = productSnap.exists() && Array.isArray(productSnap.data().comboItems) ? productSnap.data().comboItems : [];
+      const grantIds = comboItems.length ? [productId, ...comboItems] : [productId];
       // Ghi cùng lúc: thêm quyền + lưu một đơn "Đã xác nhận" để có lịch sử
       const batch = writeBatch(db);
-      batch.set(doc(db, "users", userDoc.id), { ownedProducts: arrayUnion(productId) }, { merge: true });
+      batch.set(doc(db, "users", userDoc.id), { ownedProducts: arrayUnion(...grantIds) }, { merge: true });
       batch.set(doc(db, "orders", code), {
         code, uid: userDoc.id, email: String(userDoc.data().email || email), name: String(userDoc.data().name || ""),
         productId, productTitle: product?.name || "", productKind: "", priceLabel: source, amount: 0,
         status: "Đã xác nhận", source, note: note.trim(), createdAt: new Date().toISOString(), confirmedAt: new Date().toISOString(),
       });
       await batch.commit();
-      setResult(`Đã mở quyền "${product?.name}" cho ${email.trim()}. Thành viên tải lại trang là thấy sản phẩm.`);
+      const memberEmail = String(userDoc.data().email || email.trim());
+      const memberName = String(userDoc.data().name || "");
+      const title = product?.name || "";
+      // Thông báo trong chuông
+      notifyUser(userDoc.id,
+        source === "Quà tặng" ? "Tia gửi tặng bạn một món quà" : `${title} đã sẵn sàng`,
+        source === "Quà tặng" ? `Tia gửi tặng bạn ${title}. Bấm để xem ngay.` : `${title} đã sẵn sàng. Bấm để bắt đầu.`,
+        comboItems.length ? "#trang-ca-nhan/san-pham" : `#san-pham=${productId}`);
+      // Email cho thành viên (bỏ tick "Gửi email" để cấp âm thầm)
+      if (sendMail) sendAdminEmail({ type: "access_granted", email: memberEmail, name: memberName, productName: title, source });
+      setResult(`Đã cấp "${title}"${comboItems.length ? ` (kèm ${comboItems.length} sản phẩm trong combo)` : ""} cho ${email.trim()}${sendMail ? ", đã gửi email báo" : ""}. Trang của thành viên tự cập nhật.`);
       setEmail("");
       setNote("");
     } catch {
@@ -1756,6 +1771,7 @@ function GrantAccessPage({ products, onBack }: { products: (typeof initialProduc
           <label className="wide"><span>Sản phẩm</span><select required value={productId} onChange={(e) => setProductId(e.target.value)}><option value="" disabled>Chọn sản phẩm</option>{products.map((item) => <option key={item.id} value={item.id}>{item.name}{item.status !== "Đang bán" ? ` (${item.status})` : ""}</option>)}</select></label>
           <label><span>Nguồn cấp quyền</span><select value={source} onChange={(e) => setSource(e.target.value)}><option>Admin cấp</option><option>Quà tặng</option><option>Thanh toán qua Zalo</option><option>Mã ưu đãi</option></select></label>
           <label className="wide"><span>Ghi chú nội bộ</span><textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Lý do hoặc thông tin cần lưu..." /></label>
+          <label className="wide" style={{ display: "flex", alignItems: "center", gap: 10, flexDirection: "row" }}><input type="checkbox" checked={sendMail} onChange={(e) => setSendMail(e.target.checked)} style={{ width: 18, height: 18 }} /><span>Gửi email báo cho thành viên (bỏ tick nếu muốn cấp âm thầm)</span></label>
         </div>
       </section>
       <footer><button type="button" className="secondary" onClick={onBack}>Quay lại</button><button type="submit" disabled={saving}>{saving ? "Đang cấp quyền..." : "Xác nhận cấp quyền"}</button></footer>
