@@ -136,8 +136,24 @@ async function write(path, html) {
   await writeFile(`${OUT}/${path}/index.html`, html);
 }
 
+// Danh sách link gửi Google (sitemap.xml)
+const sitemapUrls = [{ loc: `${SITE}/` }];
+
+function sitemapXml() {
+  const rows = sitemapUrls.map((u) =>
+    `  <url><loc>${esc(u.loc)}</loc>${u.lastmod ? `<lastmod>${esc(u.lastmod)}</lastmod>` : ""}</url>`).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows}\n</urlset>\n`;
+}
+
+const ROBOTS = `User-agent: *
+Allow: /
+
+Sitemap: ${SITE}/sitemap.xml
+`;
+
 async function main() {
   await writeFile(`${OUT}/404.html`, PAGE_404);
+  await writeFile(`${OUT}/robots.txt`, ROBOTS);
 
   const todayVN = new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
   const todayUTC = new Date().toISOString().slice(0, 10);
@@ -154,6 +170,7 @@ async function main() {
         title: p.title, description, image: shareImage(p.image || p.imageCard),
         url: `${SITE}/p/${slugs[p.id]}`, target: `/#san-pham=${p.id}`, type: "website",
       }));
+      sitemapUrls.push({ loc: `${SITE}/p/${slugs[p.id]}` });
     }
     console.log(`Đã tạo ${products.length} trang chia sẻ sản phẩm`);
   } catch (e) {
@@ -168,11 +185,17 @@ async function main() {
         title: a.title || "Bài viết", description: short(a.metaDescription || a.excerpt || ""), image: shareImage(a.image),
         url: `${SITE}/bai-viet/${slugs[a.id]}`, target: `/#article=${a.id}`, type: "article",
       }));
+      const day = String(a.publishedAt || "").slice(0, 10);
+      sitemapUrls.push({ loc: `${SITE}/bai-viet/${slugs[a.id]}`, lastmod: /^\d{4}-\d{2}-\d{2}$/.test(day) ? day : "" });
     }
     console.log(`Đã tạo ${articles.length} trang chia sẻ bài viết`);
   } catch (e) {
     console.log("Bỏ qua trang chia sẻ bài viết:", e.message);
   }
+
+  // Luôn tạo sitemap (ít nhất có trang chủ), kể cả khi đọc dữ liệu lỗi
+  await writeFile(`${OUT}/sitemap.xml`, sitemapXml());
+  console.log(`Đã tạo sitemap.xml với ${sitemapUrls.length} link`);
 }
 
 main();
