@@ -21,6 +21,40 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://tiahere.com/og-default.png" />
+    <!-- Google Analytics (chỉ đếm trên tiahere.com, không đếm khi chạy thử localhost) -->
+    <script>
+      (function () {
+        if (location.hostname !== "tiahere.com" && location.hostname !== "www.tiahere.com") return;
+        var GA_ID = "G-J838L8PHBT";
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag("js", new Date());
+        gtag("config", GA_ID, { send_page_view: false });
+
+        // Web đổi trang bằng dấu # → tự gửi lượt xem cho từng trang
+        // Ví dụ: /#san-pham=abc → /san-pham/abc ; /#article=xyz → /article/xyz
+        var last = "";
+        function track() {
+          var h = location.hash.replace(/^#\/?/, "");
+          var path = "/" + h.replace(/=/g, "/");
+          if (path === last) return;
+          last = path;
+          setTimeout(function () {
+            gtag("event", "page_view", {
+              page_location: location.origin + path,
+              page_path: path,
+              page_title: document.title
+            });
+          }, 400);
+        }
+        track();
+        window.addEventListener("hashchange", track);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
