@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tiahere</title>
+    <title>Tiahere - Hiểu mình, định hướng sự nghiệp cùng Tia Nguyễn</title>
     <meta name="description" content="Tài liệu, công cụ, khoá học và đồng hành 1:1 giúp bạn hiểu mình và định hướng sự nghiệp, cùng Tia Nguyễn." />
+    <link rel="canonical" href="https://tiahere.com/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -21,6 +22,35 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://tiahere.com/og-default.png" />
+
+    <!-- Nội dung chữ dựng sẵn cho Google / AI đọc: ẩn đi khi trình duyệt chạy web bình thường -->
+    <script>document.documentElement.className += " js";</script>
+    <style>.js .seo-static{display:none}</style>
+
+    <!-- Thông tin thương hiệu cho Google (schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://tiahere.com/#organization",
+          "name": "Tiahere",
+          "url": "https://tiahere.com/",
+          "logo": "https://tiahere.com/apple-touch-icon.png",
+          "founder": { "@type": "Person", "name": "Tia Nguyễn" }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://tiahere.com/#website",
+          "name": "Tiahere",
+          "url": "https://tiahere.com/",
+          "inLanguage": "vi",
+          "publisher": { "@id": "https://tiahere.com/#organization" }
+        }
+      ]
+    }
+    </script>
     <!-- Google Analytics (chỉ đếm trên tiahere.com, không đếm khi chạy thử localhost) -->
     <script>
       (function () {
@@ -35,29 +65,38 @@
         gtag("js", new Date());
         gtag("config", GA_ID, { send_page_view: false });
 
-        // Web đổi trang bằng dấu # → tự gửi lượt xem cho từng trang
-        // Ví dụ: /#san-pham=abc → /san-pham/abc ; /#article=xyz → /article/xyz
-        var last = "";
-        function track() {
+        // Gửi lượt xem mỗi khi đổi trang (link đẹp /p/... /bai-viet/... hoặc link dạng #...)
+        // Ví dụ: /p/ten-san-pham/ giữ nguyên ; /#tai-lieu → /tai-lieu ; /#san-pham=abc → /san-pham/abc
+        function pagePath() {
           var h = location.hash.replace(/^#\/?/, "");
-          var path = "/" + h.replace(/=/g, "/");
-          if (path === last) return;
-          last = path;
-          setTimeout(function () {
+          return h ? "/" + h.replace(/=/g, "/") : location.pathname;
+        }
+        var last = "", timer;
+        function track() {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            var path = pagePath();
+            if (path === last) return;
+            last = path;
             gtag("event", "page_view", {
               page_location: location.origin + path,
               page_path: path,
               page_title: document.title
             });
-          }, 400);
+          }, 500);
         }
-        track();
+        ["pushState", "replaceState"].forEach(function (k) {
+          var orig = history[k];
+          history[k] = function () { var r = orig.apply(this, arguments); track(); return r; };
+        });
         window.addEventListener("hashchange", track);
+        window.addEventListener("popstate", track);
+        track();
       })();
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--seo-static--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

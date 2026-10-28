@@ -341,10 +341,15 @@ const EXTRA_CSS = `
 .auth-terms a{color:#a3605d;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
 .auth-terms a:hover{color:#7e4542;text-decoration-thickness:2px;}
 /* Trang Điều khoản / Chính sách */
-.legal-page h3{margin:26px 0 10px;}
-.legal-page h4{margin:20px 0 8px;}
-.legal-page ul,.legal-page ol{padding-left:22px;margin:8px 0 14px;}
-.legal-page li{margin:6px 0;line-height:1.6;}
+.legal-page .legal-text h2{font-size:1.22rem !important;font-weight:700 !important;line-height:1.4 !important;margin:30px 0 10px !important;color:#4b342c !important;}
+.legal-page .legal-text h2:first-child{margin-top:4px !important;}
+.legal-page .legal-text h3{font-size:1.08rem !important;font-weight:700 !important;line-height:1.45 !important;margin:24px 0 8px !important;color:#4b342c !important;}
+.legal-page .legal-text h4{font-size:1rem !important;font-weight:700 !important;margin:20px 0 8px !important;color:#4b342c !important;}
+.legal-page .legal-text strong{font-weight:700;}
+.legal-page .legal-text ul{list-style:disc !important;padding-left:22px !important;margin:8px 0 14px !important;}
+.legal-page .legal-text ol{list-style:decimal !important;padding-left:22px !important;margin:8px 0 14px !important;}
+.legal-page .legal-text li{display:list-item !important;margin:6px 0;line-height:1.6;}
+.legal-page .legal-text li::marker{color:#c38380;}
 /* Mobile: mọi card sản phẩm ở Khám phá có khung ảnh cùng tỉ lệ 16:9, không phụ thuộc kích thước ảnh gốc */
 @media (max-width:760px){
   .showcase-grid .showcase-product{min-height:0 !important;}
@@ -1689,12 +1694,28 @@ function buildShareSlugs(items: { id: string; title: string }[]): Record<string,
 }
 const SHARE_SLUGS = { products: {} as Record<string, string>, articles: {} as Record<string, string> };
 const onLiveSite = () => /(^|\.)tiahere\.com$/.test(window.location.hostname);
-const productLink = (id: string) => onLiveSite() && SHARE_SLUGS.products[id]
-  ? `https://tiahere.com/p/${SHARE_SLUGS.products[id]}`
-  : `${window.location.origin}${window.location.pathname}#san-pham=${id}`;
-const articleLink = (id: string) => onLiveSite() && SHARE_SLUGS.articles[id]
-  ? `https://tiahere.com/bai-viet/${SHARE_SLUGS.articles[id]}`
-  : `${window.location.origin}${window.location.pathname}#article=${id}`;
+const productLink = (id: string) => SHARE_SLUGS.products[id]
+  ? `${onLiveSite() ? "https://tiahere.com" : window.location.origin}/p/${SHARE_SLUGS.products[id]}/`
+  : `${window.location.origin}/#san-pham=${id}`;
+const articleLink = (id: string) => SHARE_SLUGS.articles[id]
+  ? `${onLiveSite() ? "https://tiahere.com" : window.location.origin}/bai-viet/${SHARE_SLUGS.articles[id]}/`
+  : `${window.location.origin}/#article=${id}`;
+// Trang sản phẩm / bài viết có link thật dạng /p/ten-san-pham/ và /bai-viet/ten-bai-viet/ (tốt cho Google).
+// Bên trong web vẫn dùng "mã trang" kiểu #...: /p/abc/ → "#p=abc", /bai-viet/xyz/ → "#bv=xyz".
+// Nếu link có phần # (link cũ, menu, thông báo) thì ưu tiên phần #.
+const pathRoute = () => {
+  const m = window.location.pathname.match(/^\/(p|bai-viet)\/([^/]+)\/?$/);
+  if (!m) return "";
+  let slug = m[2];
+  try { slug = decodeURIComponent(slug); } catch { /* giữ nguyên */ }
+  return `#${m[1] === "p" ? "p" : "bv"}=${slug}`;
+};
+const currentRoute = () => { const h = currentHash(); return h && h !== "#" ? h : pathRoute(); };
+const routeUrl = (route: string) => {
+  const m = route.match(/^#(p|bv)=(.+)$/);
+  if (m) return m[1] === "p" ? `/p/${m[2]}/` : `/bai-viet/${m[2]}/`;
+  return route ? `/${route}` : `/${window.location.search}`;
+};
 
 // ── Điều khoản sử dụng & Chính sách bảo mật (nội dung do admin soạn trong Admin) ──
 const LEGAL_PAGES = {
@@ -2421,22 +2442,27 @@ export default function App() {
     return () => { window.removeEventListener("hashchange", onHash); window.removeEventListener("popstate", onHash); };
   }, []);
   useEffect(() => {
-    const h = currentHash();
+    const h = currentRoute();
     if (appliedHash.current === h || h.startsWith("#admin") || legalFromHash(h)) return;
-    // Link chia sẻ mới chưa kịp tạo trang riêng: 404.html chuyển về #p=ten-san-pham / #bv=ten-bai-viet → đổi sang link thường
+    // Link đẹp /p/ten-san-pham/ (#p=...) hoặc /bai-viet/ten-bai/ (#bv=...) → tìm mã sản phẩm / bài viết
+    let target = h;
     const slugHit = h.match(/^#(p|bv)=(.+)$/);
     if (slugHit) {
       const isProduct = slugHit[1] === "p";
       const map = isProduct ? SHARE_SLUGS.products : SHARE_SLUGS.articles;
       const id = Object.keys(map).find((key) => map[key] === slugHit[2]);
       if (!id && !(isProduct ? allProducts.length : articles.length)) return; // chờ tải xong danh sách
-      window.history.replaceState(null, "", id ? (isProduct ? `#san-pham=${id}` : `#article=${id}`) : window.location.pathname);
-      setHashTick((t) => t + 1);
-      return;
+      if (!id) { // sản phẩm đã ẩn / đổi tên → về trang chủ
+        window.history.replaceState(null, "", "/");
+        setHashTick((t) => t + 1);
+        return;
+      }
+      target = isProduct ? `#san-pham=${id}` : `#article=${id}`;
+      if (currentHash()) window.history.replaceState(null, "", routeUrl(h)); // /#p=abc (từ 404.html) → /p/abc/
     }
     const clearOverlays = () => { setReaderProduct(null); setToolProduct(null); setParticipantProduct(null); setPurchaseStep(null); setMobileOpen(false); };
-    const prod = h.match(/^#san-pham=(.+)$/);
-    const art = h.match(/^#article=(.+)$/);
+    const prod = target.match(/^#san-pham=(.+)$/);
+    const art = target.match(/^#article=(.+)$/);
     if (prod) {
       const product = allProducts.find((x) => x.id === prod[1]);
       if (!product) return; // sản phẩm chưa tải xong → thử lại khi tải xong
@@ -2466,17 +2492,53 @@ export default function App() {
   // ── Link riêng: đổi trang → cập nhật link trên thanh địa chỉ ──
   useEffect(() => {
     if (adminMode || legalPage) return;
-    const want = selectedArticle ? `#article=${selectedArticle.id}` : selectedProduct ? `#san-pham=${selectedProduct.id}` : NAV_HASH[activeNav] ?? "";
-    const now = currentHash();
+    const pSlug = selectedProduct ? SHARE_SLUGS.products[selectedProduct.id] : "";
+    const aSlug = selectedArticle ? SHARE_SLUGS.articles[selectedArticle.id] : "";
+    const want = selectedArticle ? (aSlug ? `#bv=${aSlug}` : `#article=${selectedArticle.id}`)
+      : selectedProduct ? (pSlug ? `#p=${pSlug}` : `#san-pham=${selectedProduct.id}`)
+      : NAV_HASH[activeNav] ?? "";
+    const now = currentRoute();
     if (now === want || (want === "#trang-ca-nhan" && now.startsWith("#trang-ca-nhan/"))) { appliedHash.current = now; return; }
     if (appliedHash.current !== now) return; // link mới vào chưa mở xong → không ghi đè
-    window.history.pushState(null, "", want || window.location.pathname + window.location.search);
+    // Cùng một trang, chỉ đổi sang link đẹp (vd. link cũ #san-pham=... → /p/ten-san-pham/): thay link, không thêm bước Back
+    const samePage = (selectedProduct && now === `#san-pham=${selectedProduct.id}`) || (selectedArticle && now === `#article=${selectedArticle.id}`);
+    if (samePage) window.history.replaceState(null, "", routeUrl(want));
+    else window.history.pushState(null, "", routeUrl(want));
     appliedHash.current = want;
-  }, [activeNav, selectedProduct?.id, selectedArticle?.id, adminMode, legalPage]);
+  }, [activeNav, selectedProduct?.id, selectedArticle?.id, adminMode, legalPage, allProducts, articles]);
+  // ── Tiêu đề tab, mô tả và link chuẩn (canonical) theo trang đang xem: giúp Google và khi lưu/chia sẻ ──
+  useEffect(() => {
+    const SITE_TITLE = "Tiahere - Hiểu mình, định hướng sự nghiệp cùng Tia Nguyễn";
+    const SITE_DESC = "Tài liệu, công cụ, khoá học và đồng hành 1:1 giúp bạn hiểu mình và định hướng sự nghiệp, cùng Tia Nguyễn.";
+    const clip = (t: string) => { const x = t.replace(/[#*>_`]/g, "").replace(/\s+/g, " ").trim(); return x.length > 160 ? x.slice(0, 157).trimEnd() + "…" : x; };
+    let title = SITE_TITLE, desc = SITE_DESC, canonical = "https://tiahere.com/";
+    if (legalPage) {
+      title = `${LEGAL_PAGES[legalPage].title} - Tiahere`;
+    } else if (selectedArticle) {
+      title = `${selectedArticle.title} - Tiahere`;
+      desc = clip(selectedArticle.excerpt || selectedArticle.content) || SITE_DESC;
+      const slug = SHARE_SLUGS.articles[selectedArticle.id];
+      if (slug) canonical = `https://tiahere.com/bai-viet/${slug}/`;
+    } else if (selectedProduct) {
+      title = `${selectedProduct.title} - Tiahere`;
+      desc = clip(selectedProduct.description) || SITE_DESC;
+      const slug = SHARE_SLUGS.products[selectedProduct.id];
+      if (slug) canonical = `https://tiahere.com/p/${slug}/`;
+    } else if (activeNav !== "Trang chủ") {
+      title = `${activeNav} - Tiahere`;
+    }
+    document.title = title;
+    const setMeta = (selector: string, attr: string, value: string) => { const el = document.head.querySelector(selector); if (el) el.setAttribute(attr, value); };
+    setMeta('meta[name="description"]', "content", desc);
+    let link = document.head.querySelector('link[rel="canonical"]');
+    if (!link) { link = document.createElement("link"); link.setAttribute("rel", "canonical"); document.head.appendChild(link); }
+    link.setAttribute("href", canonical);
+  }, [activeNav, selectedProduct?.id, selectedArticle?.id, legalPage, allProducts, articles]);
+
   // Đang ở trang Điều khoản / Chính sách mà bấm menu, đăng nhập, tìm kiếm… → thoát trang pháp lý, link trên thanh địa chỉ đổi theo
   const leaveLegal = () => {
     if (!legalPage) return;
-    appliedHash.current = currentHash();
+    appliedHash.current = currentRoute();
     setLegalPage(null);
   };
 
